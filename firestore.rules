@@ -1,0 +1,229 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: products
+    // Document ID: productId (e.g., men-01, women-02, shoe-01, prod-123456)
+    // Fields:
+    //   - id: string (required)
+    //   - name: string (required, 1-200 chars)
+    //   - brand: string (required)
+    //   - category: string ('men' | 'women' | 'shoes' | 'perfumes')
+    //   - subcategory: string (required)
+    //   - price: number (required, > 0)
+    //   - originalPrice: number (optional, >= 0)
+    //   - inStock: bool (required)
+    //   - stockCount: number (optional, >= 0)
+    //   - stock: number (optional, >= 0)
+    //   - images: list of strings (required, >= 1)
+    //   - image: string (optional)
+    //   - imageUrl: string (optional)
+    //   - thumbnail: string (optional)
+    //   - description: string (required)
+    //   - updatedAt: string / timestamp
+    //
+    // Collection: users
+    // Document ID: userId (matches auth.uid)
+    // Fields:
+    //   - id: string (matches auth.uid)
+    //   - email: string (valid email format)
+    //   - name: string (required, 1-100 chars)
+    //   - role: string ('customer' | 'admin')
+    //   - phone: string (optional)
+    //   - addresses: list (optional)
+    //   - updatedAt: string / timestamp
+    //
+    // Collection: carts
+    // Document ID: userId (matches auth.uid)
+    // Fields:
+    //   - items: list (cart items)
+    //   - coupon: map (optional)
+    //   - updatedAt: string / timestamp
+    //
+    // Collection: wishlists
+    // Document ID: userId (matches auth.uid)
+    // Fields:
+    //   - items: list (wishlist product items)
+    //   - updatedAt: string / timestamp
+    //
+    // Collection: orders
+    // Document ID: orderId
+    // Fields:
+    //   - id: string
+    //   - orderNumber: string
+    //   - userId: string (auth.uid or null for guest)
+    //   - items: list (min 1 item)
+    //   - subtotal: number (>= 0)
+    //   - total: number (>= 0)
+    //   - paymentStatus: string
+    //   - orderStatus: string ('Placed' | 'Processing' | 'Shipped' | 'Out for Delivery' | 'Delivered' | 'Cancelled' | 'Return Requested' | 'Refunded')
+    //   - shippingAddress: map (required)
+    //   - trackingNumber: string (optional)
+    //   - courier: string (optional)
+    //   - createdAt: string / timestamp
+    //   - updatedAt: string / timestamp
+    //
+    // Collection: newsletterSubscribers
+    // Document ID: subscriberId / email hash
+    // Fields:
+    //   - email: string (valid email)
+    //   - subscribedAt: string / timestamp
+    //   - status: string
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        // 1. Firebase Auth custom claim set via Admin SDK
+        (request.auth.token.keys().hasAny(['admin']) && request.auth.token.admin == true) ||
+        // 2. Pre-authorized store director / developer admin emails
+        (request.auth.token.email != null && (
+          request.auth.token.email.matches('.*admin.*@stylenest\\.com') ||
+          request.auth.token.email == 'admin@stylenest.com' ||
+          request.auth.token.email == 'director@stylenest.com' ||
+          request.auth.token.email == 'miteshyadav7575@gmail.com'
+        )) ||
+        // 3. User document role in Firestore (/users/{uid})
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function isValidEmail(email) {
+      return email is string &&
+        email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['name', 'brand', 'category', 'price', 'inStock']) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+        data.brand is string &&
+        data.category in ['men', 'women', 'shoes', 'perfumes'] &&
+        data.price is number && data.price > 0 &&
+        data.inStock is bool;
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'name']) &&
+        isValidEmail(data.email) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 100;
+    }
+
+    function isValidOrder(data) {
+      return data.keys().hasAll(['orderNumber', 'items', 'total', 'orderStatus', 'shippingAddress']) &&
+        data.items is list && data.items.size() > 0 &&
+        data.total is number && data.total >= 0 &&
+        data.orderStatus in [
+          'Placed', 'Processing', 'Shipped', 'Out for Delivery',
+          'Delivered', 'Cancelled', 'Return Requested', 'Refunded'
+        ] &&
+        data.shippingAddress is map;
+    }
+
+    // ===============================================================
+    // Collection Security Rules
+    // ===============================================================
+
+    // 1. Products Collection
+    // Public users can read all catalog products.
+    // Product creation, updates, and deletion are strictly restricted to authenticated Admins.
+    match /products/{productId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidProduct(request.resource.data);
+      allow update: if isAdmin() && isValidProduct(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // 2. Users Collection
+    // Clients can read and manage their own profile; Admins have oversight across clients.
+    // Ordinary clients cannot elevate their own role to 'admin'.
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidUser(request.resource.data) && (
+        !('role' in request.resource.data) ||
+        request.resource.data.role == 'customer' ||
+        isAdmin()
+      );
+      allow update: if (isOwner(userId) || isAdmin()) && isValidUser(request.resource.data) && (
+        !('role' in request.resource.data) ||
+        request.resource.data.role == resource.data.role ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // 3. Carts Collection
+    // Strictly private to each authenticated client.
+    match /carts/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // 4. Wishlists Collection
+    // Strictly private to each authenticated client.
+    match /wishlists/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // 5. Orders Collection
+    // Authenticated clients can read their own orders; Admins can inspect all orders.
+    // Creating an order is allowed for valid order payloads (guest or authenticated checkout).
+    // Updating order status, courier info, and refunds is strictly restricted to Admins.
+    // Deletion is blocked to preserve auditing and tax records.
+    match /orders/{orderId} {
+      allow get: if (
+        (isAuthenticated() && (
+          resource.data.userId == request.auth.uid ||
+          (resource.data.shippingAddress != null && resource.data.shippingAddress.email == request.auth.token.email) ||
+          isAdmin()
+        )) ||
+        (request.auth == null && resource.data.userId == null)
+      );
+      allow list: if isAuthenticated() && (
+        request.auth.uid == resource.data.userId ||
+        isAdmin()
+      );
+      allow create: if isValidOrder(request.resource.data) && (
+        !('userId' in request.resource.data) ||
+        request.resource.data.userId == null ||
+        (isAuthenticated() && request.resource.data.userId == request.auth.uid)
+      );
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+
+    // 6. Newsletter Subscribers Collection
+    // Public enrollment for clients; Admin-only read and management.
+    match /newsletterSubscribers/{subId} {
+      allow create: if request.resource.data.keys().hasAll(['email']) &&
+                    isValidEmail(request.resource.data.email);
+      allow read, update, delete: if isAdmin();
+    }
+
+    // 7. Temporary Diagnostic Health-Checks
+    // Restricted to authenticated Admins.
+    match /connection_test/{testId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Default Deny for all other collections and unmatched documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#0A0A0A"/>
+  <rect x="4" y="4" width="56" height="56" rx="10" fill="none" stroke="#B99A6B" stroke-width="1.2" stroke-opacity="0.4"/>
+  
+  <!-- Minimal Indian Couture Lotus Emblem (Gold) -->
+  <circle cx="32" cy="14" r="2" fill="#B99A6B"/>
+  <path d="M32 17C30.5 22 26 24 22 25C26 27 29.5 30 32 35C34.5 30 38 27 42 25C38 24 33.5 22 32 17Z" fill="#F8F6F2"/>
+  <path d="M22 25C18 25.5 15 28.5 14 33" stroke="#B99A6B" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M42 25C46 25.5 49 28.5 50 33" stroke="#B99A6B" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Centered Collaboration Cross (Gold) -->
+  <text x="32" y="42" font-family="serif" font-size="12" fill="#B99A6B" text-anchor="middle" font-style="italic">×</text>
+
+  <!-- DRIPPY Streetwear Drip Motif (Dark Red) -->
+  <path d="M22 47H42C44 47 46 49 46 51C46 53 44 55 42 55H22V47Z" fill="#991B1B"/>
+  <path d="M26 55C25 58 27 60 28.5 61C30 60 31 58 30 55" fill="#991B1B"/>
+  <path d="M38 55C37 57.5 38.5 59 39.5 60C40.5 59 41.5 57.5 41 55" fill="#991B1B"/>
+</svg>
