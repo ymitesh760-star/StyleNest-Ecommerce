@@ -23,6 +23,9 @@ import { Checkout } from './pages/Checkout';
 import { OrderConfirmation } from './pages/OrderConfirmation';
 import { Account } from './pages/Account';
 import { Admin } from './pages/Admin';
+import { AdminLogin } from './pages/AdminLogin';
+import { AdminUnauthorized } from './pages/AdminUnauthorized';
+import { AdminRoute } from './components/auth/AdminRoute';
 import { NotFound } from './pages/NotFound';
 
 export const App: React.FC = () => {
@@ -54,7 +57,16 @@ export const App: React.FC = () => {
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
                     <Route path="/account" element={<Account />} />
-                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/admin/login" element={<AdminLogin />} />
+                    <Route path="/admin/unauthorized" element={<AdminUnauthorized />} />
+                    <Route
+                      path="/admin"
+                      element={
+                        <AdminRoute>
+                          <Admin />
+                        </AdminRoute>
+                      }
+                    />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

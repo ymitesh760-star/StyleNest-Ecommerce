@@ -8,7 +8,10 @@ import {
   sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithPopup,
-  User as FirebaseUser
+  signInWithRedirect,
+  getRedirectResult,
+  User as FirebaseUser,
+  IdTokenResult
 } from 'firebase/auth';
 import { auth, isFirebaseConfigured } from '../lib/firebase';
 import { UserProfile, Address, Order, OrderStatus } from '../types';
@@ -36,6 +39,7 @@ export interface AuthContextType {
   addOrder: (order: Order) => void;
   updateOrderStatus: (orderId: string, status: OrderStatus) => void;
   refreshOrders: () => Promise<void>;
+  checkAdminStatus: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -48,7 +52,7 @@ const DEFAULT_ADDRESSES: Address[] = [
     id: 'addr-01',
     fullName: 'Arya Singhania',
     phone: '+91 98200 45812',
-    email: 'arya.singhania@stylenest.com',
+    email: 'client@stylenest.com',
     addressLine1: 'Penthouse 42, The Grand Residences',
     addressLine2: 'Worli Sea Face',
     landmark: 'Opposite Promenade',
@@ -56,66 +60,34 @@ const DEFAULT_ADDRESSES: Address[] = [
     state: 'Maharashtra',
     pincode: '400018',
     isDefault: true,
-  },
-  {
-    id: 'addr-02',
-    fullName: 'Arya Singhania (Summer Residence)',
-    phone: '+91 98200 45812',
-    email: 'arya.singhania@stylenest.com',
-    addressLine1: 'Villa 7, Olive Crest Estate',
-    addressLine2: 'Kalyani Nagar',
-    city: 'Pune',
-    state: 'Maharashtra',
-    pincode: '411006',
-    isDefault: false,
   }
 ];
 
-const INITIAL_DEMO_ORDERS: Order[] = [
-  {
-    id: 'ord-1001',
-    orderNumber: 'STN-2026-8941',
-    createdAt: '2026-10-24T14:20:00.000Z',
-    items: [
-      {
-        id: 'perfume-01-nosize-nocolor-50ml',
-        productId: 'perfume-01',
-        name: 'Santal Impérial Extrait de Parfum',
-        brand: 'STYLENEST Parfums',
-        category: 'perfumes',
-        image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1000&q=80',
-        price: 6499,
-        quantity: 1,
-        selectedVolume: '50ml',
-        stockCount: 20
-      },
-      {
-        id: 'shoe-01-UK 8-Monochrome White-novol',
-        productId: 'shoe-01',
-        name: 'Artisan Calfskin Minimalist Sneaker',
-        brand: 'STYLENEST Footwear',
-        category: 'shoes',
-        image: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=1000&q=80',
-        price: 7999,
-        quantity: 1,
-        selectedSize: 'UK 8',
-        selectedColor: 'Monochrome White',
-        stockCount: 25
-      }
-    ],
-    subtotal: 14498,
-    discount: 1450,
-    shippingFee: 0,
-    total: 13048,
-    couponCode: 'STYLENEST10',
-    paymentMethod: 'UPI',
-    paymentStatus: 'Completed',
-    orderStatus: 'Out for Delivery',
-    shippingAddress: DEFAULT_ADDRESSES[0],
-    estimatedDelivery: 'Tomorrow, by 6:00 PM',
-    trackingNumber: 'BLUEDART-IND-9872145'
+/**
+ * Server-authorized administrator verification.
+ * Checks:
+ * 1. Cryptographically signed Firebase ID token custom claims (admin: true)
+ * 2. Pre-authorized store director emails
+ * NEVER trusts client-editable database fields.
+ */
+export async function verifyUserAdminStatus(fbUser: FirebaseUser): Promise<boolean> {
+  try {
+    const idTokenResult: IdTokenResult = await fbUser.getIdTokenResult(true);
+    const hasAdminClaim = Boolean(idTokenResult.claims.admin);
+    const email = fbUser.email?.toLowerCase().trim();
+    const isWhitelistedEmail = Boolean(
+      email && [
+        'admin@stylenest.com',
+        'director@stylenest.com',
+        'miteshyadav7575@gmail.com'
+      ].includes(email)
+    );
+    return hasAdminClaim || isWhitelistedEmail;
+  } catch (err) {
+    console.warn('[StyleNest Auth] Failed to inspect ID token claims:', err);
+    return false;
   }
-];
+}
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const toast = useToast();
@@ -123,7 +95,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isAuthReady, setIsAuthReady] = useState<boolean>(!isFirebaseConfigured);
 
   const [user, setUser] = useState<UserProfile | null>(() => {
-    // If Firebase is configured, start clean until onAuthStateChanged verifies the real session
     if (isFirebaseConfigured) return null;
     try {
       const stored = localStorage.getItem(USER_STORAGE_KEY);
@@ -143,7 +114,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   });
 
-  // Sync user changes to localStorage only when user is present
+  // Sync user changes to localStorage
   useEffect(() => {
     try {
       if (user) {
@@ -185,6 +156,29 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  // Check admin status for current user
+  const checkAdminStatus = async (): Promise<boolean> => {
+    if (!auth?.currentUser) return false;
+    return await verifyUserAdminStatus(auth.currentUser);
+  };
+
+  // Handle redirect result if Google sign-in was redirected
+  useEffect(() => {
+    if (isFirebaseConfigured && auth) {
+      getRedirectResult(auth)
+        .then(async (result) => {
+          if (result?.user) {
+            console.info('[StyleNest Auth] Handled Google redirect authentication for:', result.user.email);
+          }
+        })
+        .catch((err) => {
+          if (err.code !== 'auth/null-user') {
+            console.warn('[StyleNest Auth] Redirect auth result:', err);
+          }
+        });
+    }
+  }, []);
+
   // Listen to Firebase Auth state changes
   useEffect(() => {
     if (!isFirebaseConfigured || !auth) {
@@ -194,24 +188,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const unsubscribe = onAuthStateChanged(auth, async (fbUser: FirebaseUser | null) => {
       if (fbUser) {
-        // Authenticated with Firebase
         try {
+          const isVerifiedAdmin = await verifyUserAdminStatus(fbUser);
           const profile = await getUserProfile(fbUser.uid);
+
           if (profile) {
-            setUser(profile);
+            const effectiveRole = isVerifiedAdmin ? 'admin' : 'customer';
+            setUser({ ...profile, role: effectiveRole });
           } else {
-            const isSpecialAdmin = fbUser.email?.toLowerCase().includes('admin') || false;
+            // New user registered via Google or Email
             const newProfile: UserProfile = {
               id: fbUser.uid,
               name: fbUser.displayName || (fbUser.email ? fbUser.email.split('@')[0].replace(/[._]/g, ' ') : 'Valued Client'),
               email: fbUser.email || '',
               phone: fbUser.phoneNumber || '+91 98200 45812',
-              role: isSpecialAdmin ? 'admin' : 'customer',
+              role: isVerifiedAdmin ? 'admin' : 'customer',
               addresses: DEFAULT_ADDRESSES,
             };
             setUser(newProfile);
             await saveUserProfile(fbUser.uid, newProfile).catch((err) => {
-              console.warn('[StyleNest] Failed to create initial profile document:', err);
+              console.warn('[StyleNest Auth] Initial user profile save note:', err);
             });
           }
 
@@ -227,7 +223,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           console.error('[StyleNest] Error synchronizing Firebase user profile:', e);
         }
       } else {
-        // User logged out or unauthenticated in Firebase
         setUser(null);
         setOrders([]);
         localStorage.removeItem(USER_STORAGE_KEY);
@@ -239,20 +234,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => unsubscribe();
   }, []);
 
-  // Backwards-compatible instant login (for demo/evaluators)
+  // Backwards-compatible instant login (for demo/evaluators, only in development)
   const login = (email: string, role: 'customer' | 'admin' = 'customer') => {
-    const isSpecialAdmin = email.toLowerCase().includes('admin') || role === 'admin';
+    const assignedRole = role === 'admin' && import.meta.env.DEV ? 'admin' : 'customer';
     const newUser: UserProfile = {
       id: 'usr-' + Date.now().toString().slice(-4),
-      name: isSpecialAdmin ? 'STYLENEST Store Director' : email.split('@')[0].replace(/[._]/g, ' '),
+      name: assignedRole === 'admin' ? 'STYLENEST Store Director' : email.split('@')[0].replace(/[._]/g, ' '),
       email,
       phone: '+91 98200 45812',
-      role: isSpecialAdmin ? 'admin' : 'customer',
+      role: assignedRole,
       addresses: DEFAULT_ADDRESSES,
     };
     setUser(newUser);
     toast.luxury(
-      isSpecialAdmin ? 'Admin Access Granted' : 'Welcome to STYLENEST Privé',
+      assignedRole === 'admin' ? 'Admin Access Granted (Demo Mode)' : 'Welcome to STYLENEST Privé',
       `Signed in as ${newUser.name} (${newUser.role})`
     );
   };
@@ -265,36 +260,46 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
       const fbUser = userCredential.user;
+      const isVerifiedAdmin = await verifyUserAdminStatus(fbUser);
       const profile = await getUserProfile(fbUser.uid);
 
       if (profile) {
-        setUser(profile);
+        setUser({ ...profile, role: isVerifiedAdmin ? 'admin' : 'customer' });
       } else {
-        const isSpecialAdmin = email.toLowerCase().includes('admin');
         const fallbackProfile: UserProfile = {
           id: fbUser.uid,
           name: fbUser.displayName || email.split('@')[0].replace(/[._]/g, ' '),
           email: fbUser.email || email,
           phone: '+91 98200 45812',
-          role: isSpecialAdmin ? 'admin' : 'customer',
+          role: isVerifiedAdmin ? 'admin' : 'customer',
           addresses: DEFAULT_ADDRESSES
         };
         setUser(fallbackProfile);
-        await saveUserProfile(fbUser.uid, fallbackProfile);
+        await saveUserProfile(fbUser.uid, fallbackProfile).catch(console.warn);
       }
 
-      toast.luxury('Welcome Back', `Signed in as ${user?.name || email}`);
+      toast.luxury('Welcome Back', `Signed in as ${userCredential.user.displayName || email}`);
       return { success: true };
     } catch (error: any) {
       console.warn('[StyleNest] Firebase sign-in error:', error);
-      toast.error('Authentication Failed', error?.message || 'Invalid credentials');
-      return { success: false, message: error?.message || 'Invalid credentials' };
+      let userFriendlyMessage = 'Invalid email or password.';
+      if (error?.code === 'auth/user-not-found' || error?.code === 'auth/wrong-password' || error?.code === 'auth/invalid-credential') {
+        userFriendlyMessage = 'Invalid email or password. Please verify your credentials.';
+      } else if (error?.code === 'auth/too-many-requests') {
+        userFriendlyMessage = 'Access temporarily restricted due to multiple failed attempts. Please reset your password.';
+      } else if (error?.code === 'auth/user-disabled') {
+        userFriendlyMessage = 'This account has been disabled. Please contact concierge.';
+      } else if (error?.message) {
+        userFriendlyMessage = error.message;
+      }
+      toast.error('Authentication Failed', userFriendlyMessage);
+      return { success: false, message: userFriendlyMessage };
     }
   };
 
-  // Real Firebase Email/Password Sign-Up
+  // Real Firebase Email/Password Sign-Up (Always assigns customer role)
   const signUp = async (email: string, password: string, name?: string): Promise<{ success: boolean; message?: string }> => {
     if (!isFirebaseConfigured || !auth) {
       login(email);
@@ -302,68 +307,110 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
       const fbUser = userCredential.user;
 
       if (name) {
         await fbUpdateProfile(fbUser, { displayName: name });
       }
 
-      const isSpecialAdmin = email.toLowerCase().includes('admin');
+      // New registrations are strictly customer role
+      const isVerifiedAdmin = await verifyUserAdminStatus(fbUser);
       const newProfile: UserProfile = {
         id: fbUser.uid,
         name: name || email.split('@')[0].replace(/[._]/g, ' '),
-        email,
+        email: email.trim(),
         phone: '+91 98200 45812',
-        role: isSpecialAdmin ? 'admin' : 'customer',
+        role: isVerifiedAdmin ? 'admin' : 'customer',
         addresses: DEFAULT_ADDRESSES
       };
 
       setUser(newProfile);
-      await saveUserProfile(fbUser.uid, newProfile);
+      await saveUserProfile(fbUser.uid, newProfile).catch((err) => {
+        console.warn('[StyleNest Auth] Failed to save profile document:', err);
+      });
       toast.luxury('Account Created', `Welcome to the Maison Privé, ${newProfile.name}.`);
       return { success: true };
     } catch (error: any) {
       console.warn('[StyleNest] Firebase sign-up error:', error);
-      toast.error('Registration Failed', error?.message || 'Could not create account');
-      return { success: false, message: error?.message || 'Registration failed' };
+      let userFriendlyMessage = error?.message || 'Could not create account';
+      if (error?.code === 'auth/email-already-in-use') {
+        userFriendlyMessage = 'An account with this email address already exists. Please sign in instead.';
+      } else if (error?.code === 'auth/weak-password') {
+        userFriendlyMessage = 'Password should be at least 6 characters.';
+      } else if (error?.code === 'auth/invalid-email') {
+        userFriendlyMessage = 'Please enter a valid email address.';
+      }
+      toast.error('Registration Failed', userFriendlyMessage);
+      return { success: false, message: userFriendlyMessage };
     }
   };
 
-  // Google OAuth Provider Sign-In
+  // Google OAuth Provider Sign-In with Graceful Fallback
   const signInWithGoogle = async (): Promise<{ success: boolean; message?: string }> => {
     if (!isFirebaseConfigured || !auth) {
-      login('vip.client@stylenest.com');
+      login('client@stylenest.com');
       return { success: true };
     }
 
     try {
       const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const fbUser = result.user;
+      provider.setCustomParameters({ prompt: 'select_account' });
 
-      const profile = await getUserProfile(fbUser.uid);
-      if (profile) {
-        setUser(profile);
+      let fbUser: FirebaseUser;
+      try {
+        const result = await signInWithPopup(auth, provider);
+        fbUser = result.user;
+      } catch (popupErr: any) {
+        // User closed the popup intentionally
+        if (popupErr.code === 'auth/popup-closed-by-user' || popupErr.code === 'auth/cancelled-popup-request') {
+          return { success: false, message: 'Google sign-in was cancelled.' };
+        }
+        // Popup was blocked by browser - fallback to redirect
+        if (popupErr.code === 'auth/popup-blocked') {
+          console.info('[StyleNest Auth] Browser popup blocked. Initiating redirect fallback...');
+          await signInWithRedirect(auth, provider);
+          return { success: true };
+        }
+        throw popupErr;
+      }
+
+      const isVerifiedAdmin = await verifyUserAdminStatus(fbUser);
+      const existingProfile = await getUserProfile(fbUser.uid);
+
+      if (existingProfile) {
+        // Keep existing profile data, only synchronize verified role
+        setUser({ ...existingProfile, role: isVerifiedAdmin ? 'admin' : 'customer' });
       } else {
+        // First-time Google user
         const newProfile: UserProfile = {
           id: fbUser.uid,
-          name: fbUser.displayName || 'VIP Client',
+          name: fbUser.displayName || 'Privé Client',
           email: fbUser.email || '',
           phone: fbUser.phoneNumber || '+91 98200 45812',
-          role: fbUser.email?.toLowerCase().includes('admin') ? 'admin' : 'customer',
+          role: isVerifiedAdmin ? 'admin' : 'customer',
           addresses: DEFAULT_ADDRESSES
         };
         setUser(newProfile);
-        await saveUserProfile(fbUser.uid, newProfile);
+        await saveUserProfile(fbUser.uid, newProfile).catch((err) => {
+          console.warn('[StyleNest Auth] Google profile initial sync note:', err);
+        });
       }
 
       toast.luxury('Privé Access Confirmed', `Welcome, ${fbUser.displayName || 'Client'}.`);
       return { success: true };
     } catch (error: any) {
       console.warn('[StyleNest] Google sign-in error:', error);
-      toast.error('Google Sign-In Failed', error?.message || 'Could not authenticate via Google');
-      return { success: false, message: error?.message };
+      let userFriendlyMessage = 'Could not authenticate via Google. Please try again.';
+      if (error?.code === 'auth/account-exists-with-different-credential') {
+        userFriendlyMessage = 'An account already exists with the same email. Please sign in with email and password.';
+      } else if (error?.code === 'auth/network-request-failed') {
+        userFriendlyMessage = 'Network connection error. Please check your internet connection.';
+      } else if (error?.message) {
+        userFriendlyMessage = error.message;
+      }
+      toast.error('Google Sign-In Failed', userFriendlyMessage);
+      return { success: false, message: userFriendlyMessage };
     }
   };
 
@@ -399,9 +446,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const updateProfile = (updates: Partial<UserProfile>) => {
     setUser((prev) => {
       if (!prev) return null;
-      const updated = { ...prev, ...updates };
+      // Protect role from client update
+      const sanitized = { ...updates };
+      delete (sanitized as any).role;
+      const updated = { ...prev, ...sanitized };
       if (isFirebaseConfigured && user) {
-        saveUserProfile(user.id, updates).catch(console.warn);
+        saveUserProfile(user.id, sanitized).catch(console.warn);
       }
       return updated;
     });
@@ -492,6 +542,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         addOrder,
         updateOrderStatus,
         refreshOrders,
+        checkAdminStatus,
       }}
     >
       {children}

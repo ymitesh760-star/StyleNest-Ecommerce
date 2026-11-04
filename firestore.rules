@@ -90,18 +90,15 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() && (
-        // 1. Firebase Auth custom claim set via Admin SDK
+        // 1. Cryptographically signed Firebase Auth custom claim set via Admin SDK
         (request.auth.token.keys().hasAny(['admin']) && request.auth.token.admin == true) ||
-        // 2. Pre-authorized store director / developer admin emails
+        // 2. Pre-authorized store director / developer corporate admin emails
         (request.auth.token.email != null && (
           request.auth.token.email.matches('.*admin.*@stylenest\\.com') ||
           request.auth.token.email == 'admin@stylenest.com' ||
           request.auth.token.email == 'director@stylenest.com' ||
           request.auth.token.email == 'miteshyadav7575@gmail.com'
-        )) ||
-        // 3. User document role in Firestore (/users/{uid})
-        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+        ))
       );
     }
 

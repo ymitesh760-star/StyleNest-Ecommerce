@@ -58,6 +58,11 @@ const checks = [
     name: 'Newsletter enrollment validated with email syntax',
     test: () => rulesContent.includes('match /newsletterSubscribers/{subId}') && rulesContent.includes('isValidEmail(request.resource.data.email)'),
   },
+  {
+    name: 'No reliance on user-editable document fields for admin authorization (token claims strictly enforced)',
+    test: () => !rulesContent.includes("get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'") &&
+                rulesContent.includes("request.auth.token.admin == true"),
+  },
 ];
 
 let allPassed = true;
@@ -69,7 +74,7 @@ for (const check of checks) {
 
 console.log('\n------------------------------------------------------');
 if (allPassed) {
-  console.log('🎉 AUDIT PASSED: All 9 security & isolation criteria met!');
+  console.log('🎉 AUDIT PASSED: All 10 security & isolation criteria met!');
   console.log('   The firestore.rules file is production-hardened and ready to publish.\n');
 } else {
   console.error('❌ AUDIT FAILED: Some security criteria were not satisfied.\n');

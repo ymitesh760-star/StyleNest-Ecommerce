@@ -21,7 +21,7 @@ import { validateImageUrl, sanitizeImageUrl, FALLBACK_IMAGES } from '../utils/im
 import { LuxuryImage } from '../components/common/LuxuryImage';
 
 export const Admin: React.FC = () => {
-  const { user, isAdmin, login, signIn, signUp, signInWithGoogle, isFirebaseConnected, orders } = useAuth();
+  const { user, isAdmin, logout, isFirebaseConnected, orders } = useAuth();
   const {
     products: productList,
     createOrUpdateProduct,
@@ -35,12 +35,6 @@ export const Admin: React.FC = () => {
     document.title = 'STYLENEST × DRIPPY | Store Director Portal';
     window.scrollTo(0, 0);
   }, []);
-
-  // Admin Auth Gate State
-  const [adminEmailInput, setAdminEmailInput] = useState('admin@stylenest.com');
-  const [adminPasswordInput, setAdminPasswordInput] = useState('');
-  const [adminAuthError, setAdminAuthError] = useState<string | null>(null);
-  const [isAdminAuthLoading, setIsAdminAuthLoading] = useState(false);
 
   // Admin Tab State
   const [activeAdminTab, setActiveAdminTab] = useState<'dashboard' | 'orders' | 'catalog' | 'customers' | 'returns'>('dashboard');
@@ -128,146 +122,6 @@ export const Admin: React.FC = () => {
     fetchLiveOrders();
     fetchLiveUsers();
   }, [orders]);
-
-  // If user is not admin, provide Firebase Authentication Gate
-  if (!isAdmin) {
-    const handleFirebaseAdminLogin = async (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!adminEmailInput.trim()) return;
-      setIsAdminAuthLoading(true);
-      setAdminAuthError(null);
-      try {
-        const res = await signIn(adminEmailInput.trim(), adminPasswordInput || 'adminPass2026!');
-        if (!res.success) {
-          // If user not found, try signing up the admin account
-          if (res.message?.includes('user-not-found') || res.message?.includes('invalid-credential')) {
-            const upRes = await signUp(adminEmailInput.trim(), adminPasswordInput || 'adminPass2026!', 'Store Director');
-            if (!upRes.success) {
-              setAdminAuthError(upRes.message || 'Authentication failed. Please check credentials.');
-            }
-          } else {
-            setAdminAuthError(res.message || 'Authentication failed. Please check credentials.');
-          }
-        }
-      } catch (err: any) {
-        setAdminAuthError(err?.message || 'Login error occurred.');
-      } finally {
-        setIsAdminAuthLoading(false);
-      }
-    };
-
-    const handleGoogleAdminLogin = async () => {
-      setIsAdminAuthLoading(true);
-      setAdminAuthError(null);
-      try {
-        const res = await signInWithGoogle();
-        if (!res.success && res.message) {
-          setAdminAuthError(res.message);
-        }
-      } catch (err: any) {
-        setAdminAuthError(err?.message || 'Google authentication failed.');
-      } finally {
-        setIsAdminAuthLoading(false);
-      }
-    };
-
-    return (
-      <div className="max-w-md mx-auto px-4 py-16 sm:py-24 text-center">
-        <div className="p-8 sm:p-10 bg-white border border-black/10 rounded-none shadow-2xl space-y-5 text-left">
-          <div className="w-14 h-14 mx-auto rounded-full bg-[#B99A6B]/15 border border-[#B99A6B]/30 flex items-center justify-center text-[#B99A6B]">
-            <ShieldCheck className="w-7 h-7" />
-          </div>
-
-          <div className="text-center space-y-1">
-            <h2 className="font-sans font-black text-2xl uppercase tracking-tight text-[#0A0A0A]">
-              Store Director Atelier
-            </h2>
-            <p className="text-xs text-neutral-500 leading-relaxed">
-              Role-based administrative portal for STYLENEST &times; DRIPPY. Authenticate to manage catalog, orders, and clients.
-            </p>
-          </div>
-
-          {adminAuthError && (
-            <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-red-600" />
-              <span>{adminAuthError}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleFirebaseAdminLogin} className="space-y-3.5 pt-2">
-            <div>
-              <label className="block text-[10px] font-mono uppercase font-bold tracking-wider text-neutral-700 mb-1">
-                Admin Email Address
-              </label>
-              <input
-                type="email"
-                required
-                value={adminEmailInput}
-                onChange={(e) => setAdminEmailInput(e.target.value)}
-                placeholder="admin@stylenest.com"
-                className="w-full px-3.5 py-2.5 bg-[#FAF8F5] border border-black/15 text-xs text-[#0A0A0A] font-medium outline-none focus:border-black transition-colors"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[10px] font-mono uppercase font-bold tracking-wider text-neutral-700 mb-1">
-                Security Password
-              </label>
-              <input
-                type="password"
-                required
-                value={adminPasswordInput}
-                onChange={(e) => setAdminPasswordInput(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full px-3.5 py-2.5 bg-[#FAF8F5] border border-black/15 text-xs text-[#0A0A0A] font-medium outline-none focus:border-black transition-colors"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isAdminAuthLoading}
-              className="w-full py-3.5 bg-[#0A0A0A] hover:bg-[#1f1f1f] disabled:bg-neutral-400 text-white text-xs font-bold uppercase tracking-widest border border-[#B99A6B]/50 transition-all shadow-sm active:scale-[0.99] flex items-center justify-center gap-2"
-            >
-              {isAdminAuthLoading ? (
-                <>
-                  <RefreshCw className="w-4 h-4 animate-spin text-[#B99A6B]" />
-                  <span>Verifying Credentials...</span>
-                </>
-              ) : (
-                <span>Sign In as Store Director</span>
-              )}
-            </button>
-          </form>
-
-          {isFirebaseConnected && (
-            <div className="pt-2 border-t border-black/10">
-              <button
-                type="button"
-                onClick={handleGoogleAdminLogin}
-                disabled={isAdminAuthLoading}
-                className="w-full py-2.5 bg-white hover:bg-neutral-50 border border-black/20 text-xs font-bold uppercase tracking-wider text-[#0A0A0A] transition-colors flex items-center justify-center gap-2"
-              >
-                <span>Sign in with Google</span>
-              </button>
-            </div>
-          )}
-
-          <div className="pt-2 text-center border-t border-black/10">
-            <button
-              type="button"
-              onClick={() => login('admin@stylenest.com', 'admin')}
-              className="text-[11px] font-mono uppercase text-neutral-500 hover:text-black underline tracking-wider"
-            >
-              Dev Bypass: Local Offline Admin State
-            </button>
-            <Link to="/" className="block text-xs text-neutral-500 hover:text-black pt-3">
-              &larr; Return to Boutique
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   // Calculate Metrics
   const totalRevenue = allOrders.reduce((sum, o) => sum + o.total, 0);
@@ -654,6 +508,21 @@ export const Admin: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2 px-3 py-2 bg-neutral-100 border border-black/10 text-xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span className="font-mono text-[11px] text-neutral-800 font-medium truncate max-w-[170px]" title={user?.email || 'Store Director'}>
+              {user?.email || 'Store Director'}
+            </span>
+            <button
+              type="button"
+              onClick={() => logout()}
+              className="ml-1 text-[11px] text-rose-700 hover:text-rose-900 font-semibold underline uppercase tracking-wider"
+              title="Sign Out of Store Director session"
+            >
+              Sign Out
+            </button>
+          </div>
+
           <button
             onClick={handleSeedCatalog}
             disabled={isSeeding}
