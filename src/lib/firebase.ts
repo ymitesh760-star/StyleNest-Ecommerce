@@ -9,13 +9,13 @@ import { getStorage, FirebaseStorage } from 'firebase/storage';
  * Values are retrieved strictly from Vite environment variables (.env).
  */
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyAqY0xPbfPSSugEXubwJ0jaU08gpWwLkf0',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'stylenest-65f02.firebaseapp.com',
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'stylenest-65f02',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'stylenest-65f02.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '527044814402',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:527044814402:web:dd1afa12e29b1e226cefdb',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-Z06H3MTXNM',
 };
 
 /**

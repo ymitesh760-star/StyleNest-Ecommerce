@@ -18,7 +18,6 @@ export const Account: React.FC = () => {
     isAuthReady,
     isAdmin,
     isFirebaseConnected,
-    login,
     signIn,
     signUp,
     signInWithGoogle,
@@ -216,16 +215,10 @@ export const Account: React.FC = () => {
             <p className="text-xs text-elan-500">
               Sign in to manage your bespoke orders, saved residences, and curated wishlist.
             </p>
-            {isFirebaseConnected ? (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xs text-[10px] font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                Firebase Cloud Auth Active (stylenest-65f02)
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-elan-100 text-elan-700 border border-elan-200 rounded-xs text-[10px] font-medium">
-                Local / Demo Mode (Ready for Firebase credentials)
-              </span>
-            )}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF8F5] text-neutral-700 border border-black/10 rounded-xs text-[10px] font-mono uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#B99A6B]" />
+              STYLENEST &times; DRIPPY &bull; Privé Member Portal
+            </span>
           </div>
 
           {/* Google One-Click OAuth */}

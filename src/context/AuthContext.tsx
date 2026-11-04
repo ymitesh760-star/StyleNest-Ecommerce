@@ -25,7 +25,6 @@ export interface AuthContextType {
   isAuthReady: boolean;
   isAdmin: boolean;
   isFirebaseConnected: boolean;
-  login: (email: string, role?: 'customer' | 'admin') => Promise<void> | void;
   signIn: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
   signUp: (email: string, password: string, name?: string) => Promise<{ success: boolean; message?: string }>;
   signInWithGoogle: () => Promise<{ success: boolean; message?: string }>;
@@ -93,6 +92,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const toast = useToast();
 
   const [isAuthReady, setIsAuthReady] = useState<boolean>(!isFirebaseConfigured);
+  const [isServerVerifiedAdmin, setIsServerVerifiedAdmin] = useState<boolean>(false);
 
   const [user, setUser] = useState<UserProfile | null>(() => {
     if (isFirebaseConfigured) return null;
@@ -190,6 +190,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (fbUser) {
         try {
           const isVerifiedAdmin = await verifyUserAdminStatus(fbUser);
+          setIsServerVerifiedAdmin(isVerifiedAdmin);
           const profile = await getUserProfile(fbUser.uid);
 
           if (profile) {
@@ -224,6 +225,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       } else {
         setUser(null);
+        setIsServerVerifiedAdmin(false);
         setOrders([]);
         localStorage.removeItem(USER_STORAGE_KEY);
         localStorage.removeItem(ORDERS_STORAGE_KEY);
@@ -234,29 +236,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => unsubscribe();
   }, []);
 
-  // Backwards-compatible instant login (for demo/evaluators, only in development)
-  const login = (email: string, role: 'customer' | 'admin' = 'customer') => {
-    const assignedRole = role === 'admin' && import.meta.env.DEV ? 'admin' : 'customer';
-    const newUser: UserProfile = {
-      id: 'usr-' + Date.now().toString().slice(-4),
-      name: assignedRole === 'admin' ? 'STYLENEST Store Director' : email.split('@')[0].replace(/[._]/g, ' '),
-      email,
-      phone: '+91 98200 45812',
-      role: assignedRole,
-      addresses: DEFAULT_ADDRESSES,
-    };
-    setUser(newUser);
-    toast.luxury(
-      assignedRole === 'admin' ? 'Admin Access Granted (Demo Mode)' : 'Welcome to STYLENEST Privé',
-      `Signed in as ${newUser.name} (${newUser.role})`
-    );
-  };
-
   // Real Firebase Email/Password Sign-In
   const signIn = async (email: string, password: string): Promise<{ success: boolean; message?: string }> => {
     if (!isFirebaseConfigured || !auth) {
-      login(email);
-      return { success: true };
+      toast.error('Service Unavailable', 'Firebase configuration pending. Please check credentials.');
+      return { success: false, message: 'Authentication service is not configured.' };
     }
 
     try {
@@ -302,8 +286,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Real Firebase Email/Password Sign-Up (Always assigns customer role)
   const signUp = async (email: string, password: string, name?: string): Promise<{ success: boolean; message?: string }> => {
     if (!isFirebaseConfigured || !auth) {
-      login(email);
-      return { success: true };
+      toast.error('Service Unavailable', 'Firebase configuration pending. Please check credentials.');
+      return { success: false, message: 'Authentication service is not configured.' };
     }
 
     try {
@@ -349,8 +333,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Google OAuth Provider Sign-In with Graceful Fallback
   const signInWithGoogle = async (): Promise<{ success: boolean; message?: string }> => {
     if (!isFirebaseConfigured || !auth) {
-      login('client@stylenest.com');
-      return { success: true };
+      toast.error('Service Unavailable', 'Firebase configuration pending. Please check credentials.');
+      return { success: false, message: 'Authentication service is not configured.' };
     }
 
     try {
@@ -526,9 +510,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         user,
         isAuthenticated: !!user,
         isAuthReady,
-        isAdmin: user?.role === 'admin',
+        isAdmin: isServerVerifiedAdmin,
         isFirebaseConnected: isFirebaseConfigured,
-        login,
         signIn,
         signUp,
         signInWithGoogle,
