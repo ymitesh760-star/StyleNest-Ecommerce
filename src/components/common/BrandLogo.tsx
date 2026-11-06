@@ -19,7 +19,7 @@ export const CoutureOrnamentalCrest: React.FC<{
   className?: string;
   color?: string;
   accentColor?: string;
-}> = ({ size = 28, className = '', color = 'currentColor', accentColor = '#B99A6B' }) => {
+}> = ({ size = 28, className = '', color = 'currentColor', accentColor = '#D8BD83' }) => {
   return (
     <svg
       width={size}
@@ -94,8 +94,8 @@ export const DrippyWordmark: React.FC<{
   const h = heights[size];
   const w = Math.round(h * 3.6);
 
-  // Deep rich dark red palette inspired by streetwear graffiti
-  const dripRed = variant === 'light' ? '#EF4444' : '#991B1B';
+  // Deep rich royal burgundy / wine palette inspired by couture collaboration
+  const dripRed = variant === 'light' ? '#E06B7F' : '#651C2D';
 
   return (
     <span className={`inline-flex items-center select-none ${className}`}>
@@ -183,19 +183,19 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   // Palette config
   const textPrimary =
     variant === 'light'
-      ? 'text-white'
+      ? 'text-[#F8F0E2]'
       : variant === 'gold'
-      ? 'text-[#B99A6B]'
-      : 'text-[#0A0A0A]';
+      ? 'text-[#D8BD83]'
+      : 'text-[#32141B]';
 
   const subtitleColor =
     variant === 'light'
-      ? 'text-[#D4D4D4]'
+      ? 'text-[#F2E6D2]/80'
       : variant === 'gold'
-      ? 'text-[#B99A6B]/80'
-      : 'text-[#777777]';
+      ? 'text-[#D8BD83]/80'
+      : 'text-[#89786C]';
 
-  const goldAccent = variant === 'light' ? '#EFECE6' : '#B99A6B';
+  const goldAccent = variant === 'light' ? '#F4EBD9' : '#D8BD83';
 
   // Sizing tokens
   const crestSizes = {

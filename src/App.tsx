@@ -35,7 +35,7 @@ export const App: React.FC = () => {
         <ProductProvider>
           <CartProvider>
             <WishlistProvider>
-              <div className="flex flex-col min-h-screen bg-[#F8F6F2] selection:bg-[#0A0A0A] selection:text-white font-sans">
+              <div className="flex flex-col min-h-screen bg-[#F8F0E2] selection:bg-[#4A0E1C] selection:text-[#F8F0E2] font-sans">
                 <CollaborationLoadingScreen />
                 <Navbar />
                 <CartDrawer />

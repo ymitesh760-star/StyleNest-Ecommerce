@@ -219,50 +219,50 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ forcedCategory }) =>
   return (
     <div className="pb-24">
       {/* 1. Category Hero Banner */}
-      <div className="relative bg-elan-950 text-white min-h-[300px] sm:min-h-[380px] flex items-center overflow-hidden">
+      <div className="relative bg-[#2A0710] text-white min-h-[300px] sm:min-h-[380px] flex items-center overflow-hidden border-b border-[#D8BD83]/30">
         <img
           src={meta.image}
           alt={meta.title}
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-40 scale-105 transition-transform duration-1000"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-35 scale-105 transition-transform duration-1000"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-elan-950 via-elan-950/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#2A0710] via-[#2A0710]/80 to-transparent" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-12 w-full">
           {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-[11px] uppercase tracking-wider-luxury text-elan-300 mb-4">
+          <nav className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-[#D8BD83]/80 mb-4 font-mono">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <ChevronRight className="w-3 h-3 text-elan-500" />
-            <span className="text-elan-gold font-semibold">{meta.title}</span>
+            <ChevronRight className="w-3 h-3 text-[#D8BD83]" />
+            <span className="text-[#D8BD83] font-semibold">{meta.title}</span>
           </nav>
 
-          <span className="text-xs uppercase tracking-widest-luxury text-elan-gold font-bold block mb-1">
+          <span className="text-xs uppercase font-mono tracking-[0.25em] text-[#D8BD83] font-bold block mb-1">
             {meta.subtitle}
           </span>
-          <h1 className="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-3">
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-3 text-[#F8F0E2]">
             {meta.title}
           </h1>
-          <p className="text-xs sm:text-sm text-elan-200 max-w-xl font-light leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#D8BD83]/80 max-w-xl font-normal leading-relaxed">
             {meta.description}
           </p>
         </div>
       </div>
 
       {/* 2. Top Controls Bar: Count, In-Collection Search, Filter Trigger, Sort Dropdown */}
-      <div className="sticky top-[69px] z-30 bg-white/95 backdrop-blur-md border-b border-[rgba(185,154,107,0.22)] py-3 shadow-xs">
+      <div className="sticky top-[69px] z-30 bg-[#F8F0E2]/95 backdrop-blur-md border-b border-[#D8BD83]/30 py-3 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Left: Product Count & Filter Drawer Toggle for Mobile */}
           <div className="flex items-center justify-between w-full sm:w-auto gap-4">
             <button
               onClick={() => setIsMobileFilterOpen(true)}
-              className="lg:hidden flex items-center gap-2 px-3.5 py-1.5 bg-[#0A0A0A] text-white text-xs font-semibold uppercase tracking-wider-luxury rounded-sm"
+              className="lg:hidden flex items-center gap-2 px-3.5 py-1.5 bg-[#4A0E1C] text-[#F8F0E2] text-xs font-semibold uppercase tracking-wider border border-[#D8BD83]/40"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5 text-[#B99A6B]" />
+              <SlidersHorizontal className="w-3.5 h-3.5 text-[#D8BD83]" />
               <span>Filters {activeFiltersCount > 0 ? `(${activeFiltersCount})` : ''}</span>
             </button>
 
-            <span className="text-xs text-[#777777] uppercase tracking-wider-luxury font-medium">
-              Showing <strong className="text-[#0A0A0A] font-bold">{Math.min(visibleCount, filteredProducts.length)}</strong> of{' '}
-              <strong className="text-[#0A0A0A] font-bold">{filteredProducts.length}</strong> items
+            <span className="text-xs text-[#89786C] uppercase font-mono tracking-wider font-medium">
+              Showing <strong className="text-[#32141B] font-bold">{Math.min(visibleCount, filteredProducts.length)}</strong> of{' '}
+              <strong className="text-[#32141B] font-bold">{filteredProducts.length}</strong> items
             </span>
           </div>
 
@@ -270,18 +270,18 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ forcedCategory }) =>
           <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             {/* Search Input */}
             <div className="relative hidden md:block w-48 lg:w-60">
-              <Search className="w-3.5 h-3.5 text-[#777777] absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-[#89786C] absolute left-2.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search collection..."
                 value={filters.searchQuery || ''}
                 onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
-                className="w-full bg-[#F8F6F2]/60 border border-[rgba(185,154,107,0.25)] pl-8 pr-2 py-1.5 text-xs text-[#0A0A0A] placeholder:text-[#777777] rounded-sm focus:border-[#0A0A0A] outline-none"
+                className="w-full bg-[#F2E6D2]/60 border border-[#D8BD83]/40 pl-8 pr-2 py-1.5 text-xs text-[#32141B] placeholder:text-[#89786C] focus:border-[#4A0E1C] outline-none"
               />
               {filters.searchQuery && (
                 <button
                   onClick={() => setFilters({ ...filters, searchQuery: '' })}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[#777777] hover:text-[#0A0A0A]"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[#89786C] hover:text-[#4A0E1C]"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -290,12 +290,12 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ forcedCategory }) =>
 
             {/* Sort Dropdown */}
             <div className="flex items-center gap-1.5 text-xs">
-              <ArrowUpDown className="w-3.5 h-3.5 text-[#B99A6B]" />
-              <span className="text-[#777777] font-medium uppercase tracking-wider hidden sm:inline">Sort:</span>
+              <ArrowUpDown className="w-3.5 h-3.5 text-[#D8BD83]" />
+              <span className="text-[#89786C] font-medium uppercase font-mono tracking-wider hidden sm:inline">Sort:</span>
               <select
                 value={filters.sortBy}
                 onChange={(e) => setFilters({ ...filters, sortBy: e.target.value as any })}
-                className="bg-transparent text-[#0A0A0A] font-semibold uppercase tracking-wider-luxury text-xs py-1.5 pl-1 pr-6 border-b border-[rgba(185,154,107,0.3)] focus:border-[#0A0A0A] outline-none cursor-pointer"
+                className="bg-transparent text-[#32141B] font-semibold uppercase tracking-wider text-xs py-1.5 pl-1 pr-6 border-b border-[#D8BD83]/40 focus:border-[#4A0E1C] outline-none cursor-pointer"
               >
                 <option value="popularity">Most Coveted</option>
                 <option value="newest">New Arrivals</option>
@@ -310,7 +310,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ forcedCategory }) =>
 
       {/* Active Filter Chips Bar */}
       {activeFiltersCount > 0 && (
-        <div className="bg-[#F8F6F2] border-b border-[rgba(185,154,107,0.2)] py-2.5 px-4 sm:px-8">
+        <div className="bg-[#F2E6D2]/60 border-b border-[#D8BD83]/30 py-2.5 px-4 sm:px-8">
           <div className="max-w-7xl mx-auto flex flex-wrap items-center gap-2 text-xs">
             <span className="text-[11px] uppercase tracking-wider-luxury text-[#777777] font-bold mr-1">
               Active Filters:

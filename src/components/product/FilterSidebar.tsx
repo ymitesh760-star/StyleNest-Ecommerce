@@ -55,22 +55,22 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   };
 
   return (
-    <aside className="w-full space-y-6 divide-y divide-[rgba(185,154,107,0.2)] text-xs">
+    <aside className="w-full space-y-6 divide-y divide-[#D8BD83]/30 text-xs">
       {/* Header & Reset */}
       <div className="flex items-center justify-between pb-4">
         <div>
-          <span className="text-[9px] uppercase tracking-[0.25em] text-[#B99A6B] font-bold block">
+          <span className="text-[9px] uppercase font-mono tracking-[0.25em] text-[#4A0E1C] font-bold block">
             Curate
           </span>
-          <h3 className="font-semibold uppercase tracking-wider-luxury text-[#0A0A0A]">
+          <h3 className="font-serif font-bold uppercase tracking-wider text-[#32141B]">
             Refine Selection
           </h3>
         </div>
         <button
           onClick={onResetFilters}
-          className="flex items-center gap-1.5 text-[11px] text-[#777777] hover:text-[#0A0A0A] transition-colors uppercase tracking-wider font-medium"
+          className="flex items-center gap-1.5 text-[11px] text-[#89786C] hover:text-[#4A0E1C] transition-colors uppercase font-mono font-medium"
         >
-          <RotateCcw className="w-3 h-3 text-[#B99A6B]" />
+          <RotateCcw className="w-3 h-3 text-[#D8BD83]" />
           <span>Clear All</span>
         </button>
       </div>
@@ -78,7 +78,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       {/* Subcategories */}
       {availableSubcategories.length > 0 && (
         <div className="pt-5 space-y-2.5">
-          <h4 className="font-semibold uppercase tracking-wider-luxury text-[#0A0A0A] mb-2">
+          <h4 className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#32141B] mb-2">
             Categories
           </h4>
           <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
@@ -87,13 +87,13 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
               return (
                 <label
                   key={sub}
-                  className="flex items-center gap-2.5 cursor-pointer text-[#171717] hover:text-[#B99A6B] transition-colors"
+                  className="flex items-center gap-2.5 cursor-pointer text-[#32141B] hover:text-[#4A0E1C] transition-colors"
                 >
                   <input
                     type="checkbox"
                     checked={isChecked}
                     onChange={() => toggleSubcategory(sub)}
-                    className="w-3.5 h-3.5 rounded-xs border-[rgba(185,154,107,0.4)] text-[#0A0A0A] focus:ring-[#B99A6B]"
+                    className="w-3.5 h-3.5 rounded-none border-[#D8BD83]/60 text-[#4A0E1C] focus:ring-[#4A0E1C]"
                   />
                   <span className="text-xs">{sub}</span>
                 </label>
@@ -106,10 +106,10 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       {/* Price Range Filter */}
       <div className="pt-5 space-y-3">
         <div className="flex items-center justify-between">
-          <h4 className="font-semibold uppercase tracking-wider-luxury text-[#0A0A0A]">
+          <h4 className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#32141B]">
             Price Range
           </h4>
-          <span className="font-bold text-[#0A0A0A]">
+          <span className="font-bold text-[#4A0E1C] font-mono">
             Up to ₹{filters.priceRange[1].toLocaleString('en-IN')}
           </span>
         </div>
@@ -120,9 +120,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
           step={500}
           value={filters.priceRange[1]}
           onChange={(e) => handlePriceChange(Number(e.target.value))}
-          className="w-full accent-[#B99A6B] cursor-pointer h-1.5 bg-[#F8F6F2] border border-black/10 rounded-lg"
+          className="w-full accent-[#4A0E1C] cursor-pointer h-1.5 bg-[#F2E6D2] border border-[#D8BD83]/40 rounded-lg"
         />
-        <div className="flex justify-between text-[11px] text-[#777777]">
+        <div className="flex justify-between text-[11px] text-[#89786C] font-mono">
           <span>₹1,500</span>
           <span>₹{maxPriceLimit.toLocaleString('en-IN')}</span>
         </div>
@@ -131,7 +131,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       {/* Sizes Filter */}
       {availableSizes.length > 0 && (
         <div className="pt-5 space-y-3">
-          <h4 className="font-semibold uppercase tracking-wider-luxury text-[#0A0A0A]">
+          <h4 className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#32141B]">
             Size
           </h4>
           <div className="flex flex-wrap gap-1.5">
@@ -141,10 +141,10 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                 <button
                   key={sz}
                   onClick={() => toggleSize(sz)}
-                  className={`px-3 py-1.5 text-[11px] font-medium border rounded-sm transition-all ${
+                  className={`px-3 py-1.5 text-[11px] font-medium border rounded-none transition-all ${
                     isSelected
-                      ? 'bg-[#0A0A0A] text-white border-[#0A0A0A] shadow-xs'
-                      : 'bg-white text-[#171717] border-[rgba(185,154,107,0.25)] hover:border-[#0A0A0A]'
+                      ? 'bg-[#4A0E1C] text-[#F8F0E2] border-[#4A0E1C] shadow-xs'
+                      : 'bg-white text-[#32141B] border-[#D8BD83]/40 hover:border-[#4A0E1C]'
                   }`}
                 >
                   {sz}
@@ -158,7 +158,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       {/* Colors Filter */}
       {availableColors.length > 0 && (
         <div className="pt-5 space-y-3">
-          <h4 className="font-semibold uppercase tracking-wider-luxury text-[#0A0A0A]">
+          <h4 className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#32141B]">
             Color Palette
           </h4>
           <div className="flex flex-wrap gap-2.5">
@@ -169,7 +169,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   key={clr.name}
                   onClick={() => toggleColor(clr.name)}
                   className={`w-6 h-6 rounded-full border-2 transition-all relative ${
-                    isSelected ? 'border-[#B99A6B] scale-110 shadow-sm ring-2 ring-black/10' : 'border-black/10 hover:scale-105'
+                    isSelected ? 'border-[#4A0E1C] scale-110 shadow-sm ring-2 ring-[#D8BD83]/50' : 'border-black/10 hover:scale-105'
                   }`}
                   style={{ backgroundColor: clr.hex }}
                   title={clr.name}
@@ -186,26 +186,26 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
       {/* Minimum Star Rating */}
       <div className="pt-5 space-y-2.5">
-        <h4 className="font-semibold uppercase tracking-wider-luxury text-[#0A0A0A]">
+        <h4 className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#32141B]">
           Client Rating
         </h4>
         <div className="space-y-2">
           {[4.8, 4.5, 4.0].map((starVal) => (
             <label
               key={starVal}
-              className="flex items-center gap-2 cursor-pointer text-[#171717] hover:text-[#0A0A0A]"
+              className="flex items-center gap-2 cursor-pointer text-[#32141B] hover:text-[#4A0E1C]"
             >
               <input
                 type="radio"
                 name="rating-filter"
                 checked={filters.ratings === starVal}
                 onChange={() => onFilterChange({ ...filters, ratings: filters.ratings === starVal ? null : starVal })}
-                className="w-3.5 h-3.5 text-[#0A0A0A] border-[rgba(185,154,107,0.4)] focus:ring-[#B99A6B]"
+                className="w-3.5 h-3.5 text-[#4A0E1C] border-[#D8BD83]/60 focus:ring-[#4A0E1C]"
               />
               <span className="flex items-center gap-1.5 text-xs">
-                <span className="font-semibold">{starVal}+</span>
-                <Star className="w-3.5 h-3.5 fill-[#B99A6B] text-[#B99A6B]" />
-                <span className="text-[#777777]">and above</span>
+                <span className="font-semibold font-mono">{starVal}+</span>
+                <Star className="w-3.5 h-3.5 fill-[#D8BD83] text-[#D8BD83]" />
+                <span className="text-[#89786C]">and above</span>
               </span>
             </label>
           ))}
@@ -215,14 +215,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       {/* Availability / In-Stock Only */}
       <div className="pt-5">
         <label className="flex items-center justify-between cursor-pointer">
-          <span className="font-semibold uppercase tracking-wider-luxury text-[#0A0A0A]">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#32141B]">
             In Stock Only
           </span>
           <input
             type="checkbox"
             checked={filters.inStockOnly}
             onChange={(e) => onFilterChange({ ...filters, inStockOnly: e.target.checked })}
-            className="w-4 h-4 rounded text-[#0A0A0A] border-[rgba(185,154,107,0.4)] focus:ring-[#B99A6B]"
+            className="w-4 h-4 rounded text-[#4A0E1C] border-[#D8BD83]/60 focus:ring-[#4A0E1C]"
           />
         </label>
       </div>

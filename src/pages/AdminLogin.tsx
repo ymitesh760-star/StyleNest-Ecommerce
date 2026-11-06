@@ -78,28 +78,28 @@ export const AdminLogin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 sm:py-24 bg-[#FAF8F5]">
-      <div className="max-w-md w-full bg-white border border-black/10 p-8 sm:p-10 shadow-2xl space-y-6">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 sm:py-24 bg-[#F8F0E2]">
+      <div className="max-w-md w-full bg-[#FDFBF7] border border-[#D8BD83]/40 p-8 sm:p-10 shadow-2xl space-y-6">
         <div className="text-center space-y-2">
           <div className="flex justify-center mb-1">
             <BrandLogo layout="stacked" size="md" variant="dark" />
           </div>
 
-          <div className="w-14 h-14 mx-auto rounded-full bg-[#B99A6B]/15 border border-[#B99A6B]/30 flex items-center justify-center text-[#B99A6B]">
+          <div className="w-14 h-14 mx-auto rounded-none bg-[#4A0E1C]/10 border border-[#D8BD83]/50 flex items-center justify-center text-[#4A0E1C]">
             <ShieldCheck className="w-7 h-7" />
           </div>
 
-          <h1 className="font-sans font-black text-2xl uppercase tracking-tight text-[#0A0A0A]">
+          <h1 className="font-serif font-bold text-2xl uppercase tracking-tight text-[#32141B]">
             Store Director Atelier
           </h1>
-          <p className="text-xs text-neutral-500 leading-relaxed">
+          <p className="text-xs text-[#89786C] leading-relaxed">
             Role-based administrative portal for STYLENEST &times; DRIPPY. Authenticate to manage the catalog, orders, and clients.
           </p>
         </div>
 
         {/* Notice if logged in with non-admin account */}
         {isAuthenticated && user && !isAdmin && (
-          <div className="p-3.5 bg-amber-50 border border-amber-200 text-amber-900 text-xs rounded-sm space-y-2">
+          <div className="p-3.5 bg-amber-50 border border-amber-200 text-amber-900 text-xs rounded-none space-y-2">
             <p className="font-bold flex items-center gap-1.5">
               <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
               <span>Signed in as customer: {user.email}</span>
@@ -118,7 +118,7 @@ export const AdminLogin: React.FC = () => {
         )}
 
         {authError && (
-          <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2 rounded-sm">
+          <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2 rounded-none">
             <AlertTriangle className="w-4 h-4 shrink-0 text-red-600 mt-0.5" />
             <span>{authError}</span>
           </div>
@@ -126,7 +126,7 @@ export const AdminLogin: React.FC = () => {
 
         <form onSubmit={handleEmailLogin} className="space-y-4 pt-1">
           <div>
-            <label className="block text-[10px] font-mono uppercase font-bold tracking-wider text-neutral-700 mb-1">
+            <label className="block text-[10px] font-mono uppercase font-bold tracking-wider text-[#32141B] mb-1">
               Store Director Email
             </label>
             <div className="relative">
@@ -136,14 +136,14 @@ export const AdminLogin: React.FC = () => {
                 value={adminEmail}
                 onChange={(e) => setAdminEmail(e.target.value)}
                 placeholder="director@stylenest.com"
-                className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF8F5] border border-black/15 text-xs text-[#0A0A0A] font-medium outline-none focus:border-black transition-colors"
+                className="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D8BD83]/50 text-xs text-[#32141B] font-medium outline-none focus:border-[#4A0E1C] transition-colors"
               />
-              <Mail className="w-4 h-4 text-neutral-400 absolute left-3 top-3 pointer-events-none" />
+              <Mail className="w-4 h-4 text-[#89786C] absolute left-3 top-3 pointer-events-none" />
             </div>
           </div>
 
           <div>
-            <label className="block text-[10px] font-mono uppercase font-bold tracking-wider text-neutral-700 mb-1">
+            <label className="block text-[10px] font-mono uppercase font-bold tracking-wider text-[#32141B] mb-1">
               Security Password
             </label>
             <div className="relative">
@@ -153,20 +153,20 @@ export const AdminLogin: React.FC = () => {
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF8F5] border border-black/15 text-xs text-[#0A0A0A] font-medium outline-none focus:border-black transition-colors"
+                className="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D8BD83]/50 text-xs text-[#32141B] font-medium outline-none focus:border-[#4A0E1C] transition-colors"
               />
-              <Lock className="w-4 h-4 text-neutral-400 absolute left-3 top-3 pointer-events-none" />
+              <Lock className="w-4 h-4 text-[#89786C] absolute left-3 top-3 pointer-events-none" />
             </div>
           </div>
 
           <button
             type="submit"
             disabled={isLoading || isGoogleLoading}
-            className="w-full py-3.5 bg-[#0A0A0A] hover:bg-[#1f1f1f] disabled:bg-neutral-400 text-white text-xs font-bold uppercase tracking-widest border border-[#B99A6B]/50 transition-all shadow-sm active:scale-[0.99] flex items-center justify-center gap-2"
+            className="w-full py-3.5 bg-[#4A0E1C] hover:bg-[#2A0710] disabled:bg-neutral-400 text-[#F8F0E2] text-xs font-bold uppercase tracking-widest border border-[#D8BD83]/40 transition-all shadow-sm active:scale-[0.99] flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
-                <RefreshCw className="w-4 h-4 animate-spin text-[#B99A6B]" />
+                <RefreshCw className="w-4 h-4 animate-spin text-[#D8BD83]" />
                 <span>Verifying Credentials...</span>
               </>
             ) : (
@@ -175,15 +175,15 @@ export const AdminLogin: React.FC = () => {
           </button>
         </form>
 
-        <div className="space-y-3 pt-2 border-t border-black/10">
+        <div className="space-y-3 pt-2 border-t border-[#D8BD83]/30">
           <button
             type="button"
             onClick={handleGoogleLogin}
             disabled={isLoading || isGoogleLoading}
-            className="w-full py-3 bg-white hover:bg-neutral-50 active:bg-neutral-100 border border-black/20 text-xs font-bold uppercase tracking-wider text-[#0A0A0A] transition-colors flex items-center justify-center gap-2.5 shadow-sm disabled:opacity-50"
+            className="w-full py-3 bg-white hover:bg-[#F2E6D2] active:bg-[#EFE7D7] border border-[#D8BD83]/50 text-xs font-bold uppercase tracking-wider text-[#32141B] transition-colors flex items-center justify-center gap-2.5 shadow-xs disabled:opacity-50"
           >
             {isGoogleLoading ? (
-              <RefreshCw className="w-4 h-4 animate-spin text-[#B99A6B]" />
+              <RefreshCw className="w-4 h-4 animate-spin text-[#4A0E1C]" />
             ) : (
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path
@@ -209,7 +209,7 @@ export const AdminLogin: React.FC = () => {
 
           <Link
             to="/"
-            className="w-full py-2 text-center text-xs text-neutral-500 hover:text-black transition-colors flex items-center justify-center gap-1.5"
+            className="w-full py-2 text-center text-xs text-[#89786C] hover:text-[#4A0E1C] transition-colors flex items-center justify-center gap-1.5"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Return to Boutique</span>

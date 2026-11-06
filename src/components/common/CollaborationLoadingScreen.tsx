@@ -32,7 +32,7 @@ export const CollaborationLoadingScreen: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F8F6F2] transition-opacity duration-500 select-none ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F8F0E2] transition-opacity duration-500 select-none ${
         isFading ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       role="status"
@@ -43,12 +43,12 @@ export const CollaborationLoadingScreen: React.FC = () => {
         <BrandLogo layout="stacked" size="xl" showSubtitle={true} asLink={false} />
 
         {/* Minimal Progress Hairline */}
-        <div className="w-48 h-[1.5px] bg-black/10 mt-6 relative overflow-hidden">
-          <div className="absolute inset-y-0 left-0 bg-[#991B1B] w-full animate-pulse" />
+        <div className="w-48 h-[1.5px] bg-[#D8BD83]/30 mt-6 relative overflow-hidden">
+          <div className="absolute inset-y-0 left-0 bg-[#4A0E1C] w-full animate-pulse" />
         </div>
 
         {/* Tagline */}
-        <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#8C7A6B] mt-4 font-bold">
+        <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#89786C] mt-4 font-bold">
           Indian Couture Meets Streetwear
         </span>
       </div>

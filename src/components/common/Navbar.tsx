@@ -180,8 +180,8 @@ export const Navbar: React.FC = () => {
         <nav
           className={`w-full transition-all duration-300 ${
             isScrolled
-              ? 'bg-[#FFFFFF]/95 backdrop-blur-md shadow-sm border-b border-black/10'
-              : 'bg-[#F8F6F2] border-b border-black/10'
+              ? 'bg-[#F8F0E2]/95 backdrop-blur-md shadow-sm border-b border-[#D8BD83]/30'
+              : 'bg-[#F8F0E2] border-b border-[#D8BD83]/20'
           }`}
           role="navigation"
           aria-label="Main Navigation"
@@ -195,19 +195,19 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center gap-4 flex-1">
                 <button
                   onClick={() => setIsMobileMenuOpen(true)}
-                  className="lg:hidden p-2 -ml-2 text-[#171717] hover:text-[#0A0A0A] transition-colors"
+                  className="lg:hidden p-2 -ml-2 text-[#32141B] hover:text-[#4A0E1C] transition-colors"
                   aria-label="Open mobile menu"
                 >
                   <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
 
-                <div className="hidden lg:flex items-center gap-4 text-[11px] text-[#777777] font-medium tracking-wide">
-                  <span className="inline-flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <div className="hidden lg:flex items-center gap-4 text-[11px] text-[#89786C] font-medium tracking-wide">
+                  <span className="inline-flex items-center gap-1.5 font-mono uppercase text-[10px]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D8BD83] animate-pulse" />
                     Maison Privé Concierge
                   </span>
-                  <span className="text-[rgba(185,154,107,0.4)]">|</span>
-                  <span className="uppercase tracking-wider-luxury text-[10px]">
+                  <span className="text-[#D8BD83]/40">|</span>
+                  <span className="uppercase tracking-wider-luxury text-[10px] text-[#89786C]">
                     Complimentary White-Glove Delivery
                   </span>
                 </div>
@@ -223,17 +223,17 @@ export const Navbar: React.FC = () => {
                 {/* Search Button with Quick Pill */}
                 <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 hover:bg-black/10 border border-[rgba(185,154,107,0.2)] text-[#555] hover:text-[#0A0A0A] text-xs transition-colors"
+                  className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F2E6D2] hover:bg-[#EAE1D5] border border-[#D8BD83]/40 text-[#32141B] text-xs transition-colors"
                   aria-label="Search creations"
                 >
-                  <Search className="w-3.5 h-3.5 text-[#B99A6B]" />
+                  <Search className="w-3.5 h-3.5 text-[#4A0E1C]" />
                   <span className="text-[11px] uppercase tracking-wider font-semibold">Search</span>
                 </button>
 
                 {/* Search Icon for Mobile */}
                 <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="md:hidden p-2 text-[#171717] hover:text-[#B99A6B] transition-colors"
+                  className="md:hidden p-2 text-[#32141B] hover:text-[#4A0E1C] transition-colors"
                   aria-label="Search creations"
                 >
                   <Search className="w-5 h-5" />
@@ -243,36 +243,36 @@ export const Navbar: React.FC = () => {
                 {isAdmin && (
                   <Link
                     to="/admin"
-                    className="hidden xl:flex items-center gap-1 px-2.5 py-1 bg-[#B99A6B]/15 text-[#0A0A0A] border border-[rgba(185,154,107,0.3)] rounded text-[10px] font-semibold uppercase tracking-wider-luxury hover:bg-[#B99A6B]/25 transition-colors"
+                    className="hidden xl:flex items-center gap-1.5 px-3 py-1 bg-[#4A0E1C] text-[#F8F0E2] border border-[#D8BD83]/40 rounded text-[10px] font-semibold uppercase tracking-wider-luxury hover:bg-[#2A0710] transition-colors shadow-xs"
                     title="Store Director Atelier Portal"
                   >
-                    <ShieldAlert className="w-3.5 h-3.5 text-[#B99A6B]" />
-                    <span>Admin</span>
+                    <ShieldAlert className="w-3.5 h-3.5 text-[#D8BD83]" />
+                    <span>Director Atelier</span>
                   </Link>
                 )}
 
                 {/* Client Account */}
                 <Link
                   to="/account"
-                  className="p-2 text-[#171717] hover:text-[#B99A6B] transition-colors relative rounded-full hover:bg-black/5"
+                  className="p-2 text-[#32141B] hover:text-[#4A0E1C] transition-colors relative rounded-full hover:bg-[#F2E6D2]/60"
                   aria-label="Client Account"
                   title={user ? `Signed in as ${user.name}` : 'Maison Privé Client Portal'}
                 >
                   <User className="w-4 h-4 sm:w-5 sm:h-5" />
                   {user && (
-                    <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-600 ring-2 ring-white" />
+                    <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#4A0E1C] ring-2 ring-[#F8F0E2]" />
                   )}
                 </Link>
 
                 {/* Saved Wishlist */}
                 <Link
                   to="/wishlist"
-                  className="p-2 text-[#171717] hover:text-[#B99A6B] transition-colors relative rounded-full hover:bg-black/5"
+                  className="p-2 text-[#32141B] hover:text-[#4A0E1C] transition-colors relative rounded-full hover:bg-[#F2E6D2]/60"
                   aria-label={`Saved Wishlist with ${wishlistCount} items`}
                 >
                   <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                   {wishlistCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 bg-[#0A0A0A] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-white animate-fade-in">
+                    <span className="absolute -top-0.5 -right-0.5 bg-[#4A0E1C] text-[#F8F0E2] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-[#F8F0E2] animate-fade-in">
                       {wishlistCount}
                     </span>
                   )}
@@ -281,13 +281,13 @@ export const Navbar: React.FC = () => {
                 {/* Shopping Bag with Subtotal Pill */}
                 <button
                   onClick={() => setIsCartOpen(true)}
-                  className="flex items-center gap-2 pl-2.5 pr-3 py-1.5 bg-[#0A0A0A] hover:bg-[#1f1f1f] text-white rounded-xs transition-all shadow-xs group"
+                  className="flex items-center gap-2 pl-3 pr-3.5 py-1.5 bg-[#4A0E1C] hover:bg-[#2A0710] text-[#F8F0E2] border border-[#D8BD83]/40 rounded-xs transition-all shadow-xs group"
                   aria-label={`Shopping bag with ${itemCount} items`}
                 >
-                  <ShoppingBag className="w-4 h-4 text-[#B99A6B] group-hover:text-white transition-colors" />
+                  <ShoppingBag className="w-4 h-4 text-[#D8BD83] group-hover:scale-105 transition-transform" />
                   <span className="text-xs font-bold tracking-wider">{itemCount}</span>
                   {subtotal > 0 && (
-                    <span className="hidden sm:inline-block text-[11px] font-semibold text-[#F8F6F2] border-l border-white/20 pl-2 transition-colors">
+                    <span className="hidden sm:inline-block text-[11px] font-semibold text-[#F8F0E2] border-l border-white/20 pl-2 transition-colors">
                       ₹{subtotal.toLocaleString('en-IN')}
                     </span>
                   )}
@@ -296,7 +296,7 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* Row 2: Desktop Editorial Navigation Links (Dead-Centered) */}
-            <div className={`hidden lg:flex items-center justify-center gap-8 xl:gap-10 border-t border-[rgba(185,154,107,0.18)] transition-all duration-300 ${
+            <div className={`hidden lg:flex items-center justify-center gap-8 xl:gap-10 border-t border-[#D8BD83]/20 transition-all duration-300 ${
               isScrolled ? 'py-2 text-[11px]' : 'py-2.5 sm:py-3 text-xs'
             }`}>
               {navLinks.map((link) => (
@@ -308,12 +308,12 @@ export const Navbar: React.FC = () => {
                   <NavLink
                     to={link.path}
                     className={({ isActive }) =>
-                      `tracking-wider-luxury uppercase font-semibold transition-all duration-200 relative py-1 flex items-center gap-1 group ${
+                      `tracking-[0.24em] uppercase font-semibold transition-all duration-200 relative py-1 flex items-center gap-1 group ${
                         link.isSpecial
-                          ? 'text-[#9F8054] hover:text-[#0A0A0A] font-bold'
+                          ? 'text-[#651C2D] hover:text-[#4A0E1C] font-bold'
                           : isActive
-                          ? 'text-[#0A0A0A] font-bold'
-                          : 'text-[#171717]/80 hover:text-[#0A0A0A]'
+                          ? 'text-[#4A0E1C] font-bold'
+                          : 'text-[#32141B]/80 hover:text-[#4A0E1C]'
                       }`
                     }
                   >
@@ -322,13 +322,13 @@ export const Navbar: React.FC = () => {
                         <span>{link.name}</span>
                         {/* Animated Champagne Gold Underline */}
                         <span
-                          className={`absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#B99A6B] transition-transform duration-300 origin-left ${
+                          className={`absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#D8BD83] transition-transform duration-300 origin-left ${
                             isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                           }`}
                         />
                         {link.key && (
                           <ChevronDown
-                            className={`w-3 h-3 text-[#B99A6B] opacity-70 group-hover:opacity-100 transition-transform duration-200 ${
+                            className={`w-3 h-3 text-[#D8BD83] opacity-70 group-hover:opacity-100 transition-transform duration-200 ${
                               activeMegaMenu === link.key ? 'rotate-180' : ''
                             }`}
                           />
@@ -349,32 +349,32 @@ export const Navbar: React.FC = () => {
           <div
             onMouseEnter={() => handleMouseEnter(activeMegaMenu)}
             onMouseLeave={handleMouseLeave}
-            className="hidden lg:block absolute top-full left-0 w-full bg-[#FFFFFF] border-b border-[rgba(185,154,107,0.22)] shadow-luxury animate-fade-in z-30"
+            className="hidden lg:block absolute top-full left-0 w-full bg-[#F8F0E2] border-b border-[#D8BD83]/30 shadow-luxury animate-fade-in z-30"
           >
             <div className="max-w-7xl mx-auto px-8 py-8 grid grid-cols-12 gap-8 items-start">
               {/* Column 1: Category Info */}
-              <div className="col-span-3 border-r border-[rgba(185,154,107,0.15)] pr-6 space-y-3">
-                <span className="text-[10px] uppercase tracking-widest-luxury text-[#B99A6B] font-bold block">
+              <div className="col-span-3 border-r border-[#D8BD83]/20 pr-6 space-y-3">
+                <span className="text-[10px] uppercase tracking-widest-luxury text-[#D8BD83] font-bold block font-mono">
                   Curated Collection
                 </span>
-                <h3 className="font-serif-luxury text-2xl font-bold text-[#0A0A0A]">
+                <h3 className="font-serif text-2xl font-bold text-[#32141B]">
                   {MEGA_MENUS[activeMegaMenu].title}
                 </h3>
-                <p className="text-xs text-[#777777] leading-relaxed">
+                <p className="text-xs text-[#89786C] leading-relaxed">
                   {MEGA_MENUS[activeMegaMenu].subtitle}
                 </p>
                 <Link
                   to={MEGA_MENUS[activeMegaMenu].path}
-                  className="btn-gold py-2 px-4 text-[10px] inline-flex items-center gap-1.5"
+                  className="btn-primary py-2 px-4 text-[10px] inline-flex items-center gap-1.5"
                 >
                   <span>Explore Department</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#D8BD83]" />
                 </Link>
               </div>
 
               {/* Column 2: Categories List */}
               <div className="col-span-3 space-y-2">
-                <span className="text-[10px] uppercase tracking-widest-luxury text-[#0A0A0A] font-bold block mb-3">
+                <span className="text-[10px] uppercase tracking-widest-luxury text-[#4A0E1C] font-bold block mb-3 font-mono">
                   Silhouettes & Accords
                 </span>
                 <ul className="space-y-2 text-xs">
@@ -382,7 +382,7 @@ export const Navbar: React.FC = () => {
                     <li key={sub.name}>
                       <Link
                         to={sub.path}
-                        className="text-[#171717]/80 hover:text-[#0A0A0A] hover:translate-x-1 transition-all inline-block py-0.5"
+                        className="text-[#32141B]/80 hover:text-[#4A0E1C] hover:translate-x-1 transition-all inline-block py-0.5"
                       >
                         {sub.name}
                       </Link>
@@ -393,7 +393,7 @@ export const Navbar: React.FC = () => {
 
               {/* Column 3: Atelier Highlights */}
               <div className="col-span-3 space-y-2">
-                <span className="text-[10px] uppercase tracking-widest-luxury text-[#0A0A0A] font-bold block mb-3">
+                <span className="text-[10px] uppercase tracking-widest-luxury text-[#4A0E1C] font-bold block mb-3 font-mono">
                   Atelier Highlights
                 </span>
                 <ul className="space-y-2 text-xs">
@@ -401,9 +401,9 @@ export const Navbar: React.FC = () => {
                     <li key={h.name}>
                       <Link
                         to={h.path}
-                        className="text-[#777777] hover:text-[#B99A6B] transition-colors inline-flex items-center gap-1.5 py-0.5"
+                        className="text-[#89786C] hover:text-[#4A0E1C] transition-colors inline-flex items-center gap-1.5 py-0.5"
                       >
-                        <Sparkles className="w-3 h-3 text-[#B99A6B]" />
+                        <Sparkles className="w-3 h-3 text-[#D8BD83]" />
                         <span>{h.name}</span>
                       </Link>
                     </li>
@@ -412,25 +412,25 @@ export const Navbar: React.FC = () => {
               </div>
 
               {/* Column 4: Featured Preview Card */}
-              <div className="col-span-3 bg-[#F8F6F2] p-4 rounded-sm border border-[rgba(185,154,107,0.18)] flex gap-3.5 items-center">
+              <div className="col-span-3 bg-[#F2E6D2] p-4 rounded-sm border border-[#D8BD83]/30 flex gap-3.5 items-center">
                 <img
                   src={MEGA_MENUS[activeMegaMenu].featuredImage}
                   alt={MEGA_MENUS[activeMegaMenu].featuredTitle}
                   className="w-20 h-24 object-cover rounded-xs shrink-0"
                 />
                 <div className="space-y-1">
-                  <span className="text-[9px] uppercase tracking-wider text-[#B99A6B] font-bold block">
+                  <span className="text-[9px] uppercase tracking-wider text-[#D8BD83] font-bold block font-mono">
                     Editor's Selection
                   </span>
-                  <h4 className="font-serif-luxury text-sm font-bold text-[#0A0A0A]">
+                  <h4 className="font-serif text-sm font-bold text-[#32141B]">
                     {MEGA_MENUS[activeMegaMenu].featuredTitle}
                   </h4>
-                  <p className="text-[11px] text-[#777777] line-clamp-2">
+                  <p className="text-[11px] text-[#89786C] line-clamp-2">
                     {MEGA_MENUS[activeMegaMenu].featuredTagline}
                   </p>
                   <Link
                     to={MEGA_MENUS[activeMegaMenu].path}
-                    className="text-[10px] uppercase tracking-wider font-bold text-[#0A0A0A] hover:text-[#B99A6B] inline-block pt-1"
+                    className="text-[10px] uppercase tracking-wider font-bold text-[#4A0E1C] hover:text-[#2A0710] inline-block pt-1"
                   >
                     View Piece &rarr;
                   </Link>
@@ -470,7 +470,7 @@ export const Navbar: React.FC = () => {
 
               {/* Navigation Links with Category Thumbnails */}
               <div className="py-5 space-y-2">
-                <span className="text-[9px] uppercase tracking-[0.25em] text-[#B99A6B] font-bold block mb-3">
+                <span className="text-[9px] uppercase tracking-[0.25em] text-[#D8BD83] font-bold block mb-3 font-mono">
                   Main Portfolios
                 </span>
 
@@ -479,12 +479,12 @@ export const Navbar: React.FC = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={({ isActive }) =>
                     `flex items-center justify-between py-2.5 px-3 rounded text-xs uppercase tracking-wider font-bold ${
-                      isActive ? 'bg-[#F8F6F2] text-[#B99A6B]' : 'text-[#0A0A0A] hover:bg-[#F8F6F2]'
+                      isActive ? 'bg-[#F2E6D2] text-[#4A0E1C]' : 'text-[#32141B] hover:bg-[#F2E6D2]'
                     }`
                   }
                 >
                   <span>Boutique Home</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#B99A6B]" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#D8BD83]" />
                 </NavLink>
 
                 {CATEGORIES_DATA.filter((cat) => cat.id !== 'women').map((cat) => (
@@ -494,58 +494,58 @@ export const Navbar: React.FC = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) =>
                       `flex items-center justify-between py-2.5 px-3 rounded text-xs uppercase tracking-wider font-bold transition-colors ${
-                        isActive ? 'bg-[#F8F6F2] text-[#B99A6B]' : 'text-[#0A0A0A] hover:bg-[#F8F6F2]'
+                        isActive ? 'bg-[#F2E6D2] text-[#4A0E1C]' : 'text-[#32141B] hover:bg-[#F2E6D2]'
                       }`
                     }
                   >
                     <span>{cat.title}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-[#B99A6B]" />
+                    <ArrowRight className="w-3.5 h-3.5 text-[#D8BD83]" />
                   </NavLink>
                 ))}
 
                 <NavLink
                   to="/new-arrivals"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-between py-2.5 px-3 rounded text-xs uppercase tracking-wider font-bold text-[#0A0A0A] hover:bg-[#F8F6F2]"
+                  className="flex items-center justify-between py-2.5 px-3 rounded text-xs uppercase tracking-wider font-bold text-[#32141B] hover:bg-[#F2E6D2]"
                 >
                   <span className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#B99A6B]" />
+                    <Sparkles className="w-3.5 h-3.5 text-[#D8BD83]" />
                     <span>New Arrivals 2026</span>
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#B99A6B]" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#D8BD83]" />
                 </NavLink>
 
                 <NavLink
                   to="/sale"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-between py-2.5 px-3 rounded text-xs uppercase tracking-wider font-bold text-[#B99A6B] hover:bg-[#0A0A0A] hover:text-white transition-colors"
+                  className="flex items-center justify-between py-2.5 px-3 rounded text-xs uppercase tracking-wider font-bold text-[#4A0E1C] hover:bg-[#4A0E1C] hover:text-[#F8F0E2] transition-colors"
                 >
                   <span>The Archive (Sale)</span>
-                  <span className="text-[10px] px-1.5 py-0.5 bg-[#B99A6B] text-[#0A0A0A] rounded font-bold">20% Off</span>
+                  <span className="text-[10px] px-2 py-0.5 bg-[#4A0E1C] text-[#D8BD83] rounded font-bold">20% Off</span>
                 </NavLink>
               </div>
 
               {/* Client Services & Concierge */}
-              <div className="pt-4 border-t border-[rgba(185,154,107,0.18)] space-y-2">
-                <span className="text-[9px] uppercase tracking-[0.25em] text-[#777777] font-bold block mb-2">
+              <div className="pt-4 border-t border-[#D8BD83]/20 space-y-2">
+                <span className="text-[9px] uppercase tracking-[0.25em] text-[#89786C] font-bold block mb-2 font-mono">
                   Client Privé
                 </span>
 
                 <NavLink
                   to="/account"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-2 py-2 text-xs text-[#171717] hover:text-[#B99A6B]"
+                  className="flex items-center gap-2 py-2 text-xs text-[#32141B] hover:text-[#4A0E1C]"
                 >
-                  <User className="w-4 h-4 text-[#B99A6B]" />
+                  <User className="w-4 h-4 text-[#D8BD83]" />
                   <span>{user ? `Account (${user.name})` : 'Sign In to Privé'}</span>
                 </NavLink>
 
                 <NavLink
                   to="/wishlist"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-2 py-2 text-xs text-[#171717] hover:text-[#B99A6B]"
+                  className="flex items-center gap-2 py-2 text-xs text-[#32141B] hover:text-[#4A0E1C]"
                 >
-                  <Heart className="w-4 h-4 text-[#B99A6B]" />
+                  <Heart className="w-4 h-4 text-[#D8BD83]" />
                   <span>Saved Wishlist ({wishlistCount})</span>
                 </NavLink>
 
@@ -553,9 +553,9 @@ export const Navbar: React.FC = () => {
                   <NavLink
                     to="/admin"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-2 py-2 text-xs text-amber-800 font-semibold"
+                    className="flex items-center gap-2 py-2 text-xs text-[#4A0E1C] font-bold"
                   >
-                    <ShieldAlert className="w-4 h-4 text-amber-700" />
+                    <ShieldAlert className="w-4 h-4 text-[#D8BD83]" />
                     <span>Store Director Management</span>
                   </NavLink>
                 )}
@@ -563,14 +563,14 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* Bottom: Concierge Contact */}
-            <div className="pt-6 border-t border-[rgba(185,154,107,0.18)]">
-              <p className="text-[10px] uppercase tracking-wider text-[#777777]">
+            <div className="pt-6 border-t border-[#D8BD83]/20">
+              <p className="text-[10px] uppercase tracking-wider text-[#89786C] font-mono">
                 StyleNest Concierge
               </p>
-              <p className="font-serif-luxury text-sm font-bold text-[#0A0A0A] mt-0.5">
+              <p className="font-serif text-sm font-bold text-[#32141B] mt-0.5">
                 concierge@stylenest.com
               </p>
-              <p className="text-[10px] text-[#777777] mt-1 font-light">
+              <p className="text-[10px] text-[#89786C] mt-1 font-light">
                 Complimentary White-Glove Support
               </p>
             </div>

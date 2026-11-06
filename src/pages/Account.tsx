@@ -204,19 +204,19 @@ export const Account: React.FC = () => {
   if (!isAuthenticated || !user) {
     return (
       <div className="max-w-md mx-auto px-4 py-16 sm:py-24">
-        <div className="bg-white p-8 rounded-sm border border-elan-200 shadow-luxury space-y-6">
+        <div className="bg-[#FDFBF7] p-8 sm:p-10 rounded-none border border-[#D8BD83]/40 shadow-xl space-y-6">
           <div className="text-center space-y-2">
             <div className="flex justify-center mb-1">
               <BrandLogo layout="stacked" size="md" variant="dark" />
             </div>
-            <h1 className="text-xs uppercase tracking-wider-luxury font-bold text-elan-800">
+            <h1 className="text-xs uppercase font-mono tracking-widest font-bold text-[#32141B]">
               Maison Privé Client Portal
             </h1>
-            <p className="text-xs text-elan-500">
+            <p className="text-xs text-[#89786C]">
               Sign in to manage your bespoke orders, saved residences, and curated wishlist.
             </p>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF8F5] text-neutral-700 border border-black/10 rounded-xs text-[10px] font-mono uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B99A6B]" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F2E6D2] text-[#4A0E1C] border border-[#D8BD83]/50 rounded-none text-[10px] font-mono uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4A0E1C]" />
               STYLENEST &times; DRIPPY &bull; Privé Member Portal
             </span>
           </div>
@@ -227,10 +227,10 @@ export const Account: React.FC = () => {
               type="button"
               onClick={handleGoogleSignIn}
               disabled={googleLoading || authLoading}
-              className="w-full py-3 px-4 bg-white hover:bg-[#FAF8F5] active:bg-[#F2EFE9] text-neutral-900 border border-neutral-300 rounded-sm text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-3 transition-all shadow-sm hover:border-neutral-400 disabled:opacity-50"
+              className="w-full py-3 px-4 bg-white hover:bg-[#F2E6D2] active:bg-[#EFE7D7] text-[#32141B] border border-[#D8BD83]/60 rounded-none text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-3 transition-all shadow-xs hover:border-[#4A0E1C] disabled:opacity-50"
             >
               {googleLoading ? (
-                <div className="w-4 h-4 border-2 border-neutral-800 border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-[#4A0E1C] border-t-transparent rounded-full animate-spin" />
               ) : (
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                   <path
@@ -255,22 +255,22 @@ export const Account: React.FC = () => {
             </button>
 
             <div className="relative flex items-center justify-center">
-              <div className="border-t border-elan-200 w-full" />
-              <span className="bg-white px-3 text-[10px] text-elan-400 uppercase tracking-widest font-mono absolute">
+              <div className="border-t border-[#D8BD83]/30 w-full" />
+              <span className="bg-[#FDFBF7] px-3 text-[10px] text-[#89786C] uppercase tracking-widest font-mono absolute">
                 or with email
               </span>
             </div>
           </div>
 
           {/* Mode Switcher */}
-          <div className="flex border-b border-elan-200 text-xs font-semibold uppercase tracking-wider-luxury">
+          <div className="flex border-b border-[#D8BD83]/40 text-xs font-semibold uppercase tracking-wider">
             <button
               type="button"
               onClick={() => { setAuthMode('signin'); setAuthError(null); }}
               className={`flex-1 pb-3 text-center transition-colors ${
                 authMode === 'signin'
-                  ? 'border-b-2 border-elan-950 text-elan-950 font-bold'
-                  : 'text-elan-400 hover:text-elan-950'
+                  ? 'border-b-2 border-[#4A0E1C] text-[#4A0E1C] font-bold'
+                  : 'text-[#89786C] hover:text-[#32141B]'
               }`}
             >
               Sign In
@@ -280,8 +280,8 @@ export const Account: React.FC = () => {
               onClick={() => { setAuthMode('register'); setAuthError(null); }}
               className={`flex-1 pb-3 text-center transition-colors ${
                 authMode === 'register'
-                  ? 'border-b-2 border-elan-950 text-elan-950 font-bold'
-                  : 'text-elan-400 hover:text-elan-950'
+                  ? 'border-b-2 border-[#4A0E1C] text-[#4A0E1C] font-bold'
+                  : 'text-[#89786C] hover:text-[#32141B]'
               }`}
             >
               Create Account
@@ -289,7 +289,7 @@ export const Account: React.FC = () => {
           </div>
 
           {authError && (
-            <div className="p-2.5 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-sm">
+            <div className="p-2.5 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-none">
               {authError}
             </div>
           )}
@@ -297,7 +297,7 @@ export const Account: React.FC = () => {
           <form onSubmit={handleLoginSubmit} className="space-y-4 text-xs">
             {authMode === 'register' && (
               <div>
-                <label className="block uppercase tracking-wider font-semibold text-elan-800 mb-1">
+                <label className="block uppercase font-mono tracking-wider font-semibold text-[#32141B] mb-1">
                   Full Name
                 </label>
                 <input
@@ -306,13 +306,13 @@ export const Account: React.FC = () => {
                   onChange={(e) => setNameInput(e.target.value)}
                   placeholder="e.g. Arya Singhania"
                   required
-                  className="w-full bg-elan-50 border border-elan-300 p-2.5 rounded-sm focus:border-elan-900 outline-none"
+                  className="w-full bg-white border border-[#D8BD83]/50 p-2.5 rounded-none focus:border-[#4A0E1C] outline-none text-[#32141B]"
                 />
               </div>
             )}
 
             <div>
-              <label className="block uppercase tracking-wider font-semibold text-elan-800 mb-1">
+              <label className="block uppercase font-mono tracking-wider font-semibold text-[#32141B] mb-1">
                 Email Address
               </label>
               <input
@@ -321,20 +321,20 @@ export const Account: React.FC = () => {
                 onChange={(e) => setEmailInput(e.target.value)}
                 placeholder="name@domain.com"
                 required
-                className="w-full bg-elan-50 border border-elan-300 p-2.5 rounded-sm focus:border-elan-900 outline-none"
+                className="w-full bg-white border border-[#D8BD83]/50 p-2.5 rounded-none focus:border-[#4A0E1C] outline-none text-[#32141B]"
               />
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="block uppercase tracking-wider font-semibold text-elan-800">
+                <label className="block uppercase font-mono tracking-wider font-semibold text-[#32141B]">
                   Password
                 </label>
                 {authMode === 'signin' && (
                   <button
                     type="button"
                     onClick={handlePasswordReset}
-                    className="text-[10px] text-elan-gold hover:underline uppercase tracking-wider"
+                    className="text-[10px] text-[#4A0E1C] hover:underline uppercase font-mono tracking-wider"
                   >
                     Forgot Password?
                   </button>
@@ -347,14 +347,14 @@ export const Account: React.FC = () => {
                 placeholder="Enter password (min 6 characters)"
                 required
                 minLength={6}
-                className="w-full bg-elan-50 border border-elan-300 p-2.5 rounded-sm focus:border-elan-900 outline-none"
+                className="w-full bg-white border border-[#D8BD83]/50 p-2.5 rounded-none focus:border-[#4A0E1C] outline-none text-[#32141B]"
               />
             </div>
 
             <button
               type="submit"
               disabled={authLoading}
-              className="btn-primary w-full py-3.5 text-xs font-bold tracking-wider-luxury mt-2 disabled:opacity-50"
+              className="w-full py-3.5 bg-[#4A0E1C] hover:bg-[#2A0710] text-[#F8F0E2] text-xs font-bold uppercase tracking-wider mt-2 disabled:opacity-50 border border-[#D8BD83]/40 transition-colors shadow-sm"
             >
               {authLoading
                 ? 'Processing...'
@@ -364,7 +364,7 @@ export const Account: React.FC = () => {
             </button>
           </form>
 
-          <p className="text-[10px] text-center text-elan-400">
+          <p className="text-[10px] text-center text-[#89786C] font-mono">
             Protected by Firebase Authentication & 256-bit SSL encryption.
           </p>
         </div>

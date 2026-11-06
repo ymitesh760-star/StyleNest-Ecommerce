@@ -66,18 +66,18 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col justify-start bg-[#0A0A0A]/85 backdrop-blur-md animate-fade-in">
+    <div className="fixed inset-0 z-50 flex flex-col justify-start bg-[#2A0710]/85 backdrop-blur-md animate-fade-in">
       {/* Top Search Header */}
-      <div className="bg-white border-b border-[rgba(185,154,107,0.22)] shadow-luxury py-6 px-4 sm:px-8">
+      <div className="bg-[#F8F0E2] border-b border-[#D8BD83]/40 shadow-xl py-6 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between pb-4">
-            <span className="text-[10px] uppercase tracking-widest-luxury text-[#B99A6B] font-bold flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#B99A6B]" />
-              StyleNest Global Search
+            <span className="text-[10px] uppercase font-mono tracking-widest text-[#4A0E1C] font-bold flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#D8BD83]" />
+              STYLENEST &times; DRIPPY Global Search
             </span>
             <button
               onClick={onClose}
-              className="p-1.5 text-[#777777] hover:text-[#0A0A0A] transition-colors rounded-full hover:bg-[#F8F6F2]"
+              className="p-1.5 text-[#89786C] hover:text-[#4A0E1C] transition-colors rounded-none hover:bg-[#F2E6D2]"
               aria-label="Close search"
             >
               <X className="w-5 h-5" />
@@ -85,20 +85,20 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
           </div>
 
           <form onSubmit={handleSubmit} className="relative flex items-center">
-            <Search className="w-6 h-6 text-[#777777] absolute left-0" />
+            <Search className="w-6 h-6 text-[#89786C] absolute left-0" />
             <input
               ref={inputRef}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search garments, footwear, fragrances, or collections..."
-              className="w-full pl-10 pr-12 py-3 text-lg sm:text-xl text-[#0A0A0A] placeholder:text-[#777777] bg-transparent border-b-2 border-[rgba(185,154,107,0.3)] focus:border-[#0A0A0A] outline-none transition-colors font-serif-luxury"
+              className="w-full pl-10 pr-12 py-3 text-lg sm:text-xl text-[#32141B] placeholder:text-[#89786C] bg-transparent border-b-2 border-[#D8BD83]/50 focus:border-[#4A0E1C] outline-none transition-colors font-serif"
             />
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery('')}
-                className="absolute right-0 text-[#777777] hover:text-[#0A0A0A] text-xs font-semibold uppercase tracking-wider-luxury px-2"
+                className="absolute right-0 text-[#89786C] hover:text-[#4A0E1C] text-xs font-mono font-semibold uppercase tracking-wider px-2"
               >
                 Clear
               </button>
@@ -107,7 +107,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
 
           {/* Quick Suggestions Tags */}
           <div className="mt-4 flex flex-wrap items-center gap-2">
-            <span className="text-[11px] text-[#777777] uppercase tracking-wider-luxury font-medium mr-1">Trending:</span>
+            <span className="text-[11px] text-[#89786C] uppercase font-mono tracking-wider font-medium mr-1">Trending:</span>
             {POPULAR_SEARCHES.map((term) => (
               <button
                 key={term}
@@ -116,7 +116,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                   navigate(`/search?q=${encodeURIComponent(term)}`);
                   onClose();
                 }}
-                className="px-3 py-1 bg-[#F8F6F2] hover:bg-[#B99A6B]/20 border border-[rgba(185,154,107,0.2)] text-[#0A0A0A] text-xs transition-colors rounded-xs tracking-wide"
+                className="px-3 py-1 bg-[#F2E6D2] hover:bg-[#4A0E1C] hover:text-[#F8F0E2] border border-[#D8BD83]/40 text-[#32141B] text-xs transition-colors rounded-none tracking-wide"
               >
                 {term}
               </button>

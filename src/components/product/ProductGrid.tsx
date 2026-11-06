@@ -37,14 +37,14 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-20 px-4 bg-white rounded-sm border border-elan-200 shadow-sm">
-        <div className="w-12 h-12 mx-auto rounded-full bg-elan-100 flex items-center justify-center text-elan-400 mb-4">
-          <Sparkles className="w-6 h-6 text-elan-gold" />
+      <div className="text-center py-20 px-4 bg-[#FDFBF7] rounded-none border border-[#D8BD83]/40 shadow-xs">
+        <div className="w-12 h-12 mx-auto rounded-none bg-[#F2E6D2] border border-[#D8BD83]/50 flex items-center justify-center text-[#4A0E1C] mb-4">
+          <Sparkles className="w-6 h-6 text-[#D8BD83]" />
         </div>
-        <h3 className="font-serif-luxury text-2xl font-bold text-elan-950 mb-2">
-          No garments match your filters
+        <h3 className="font-serif text-2xl font-bold text-[#32141B] mb-2">
+          No creations match your filters
         </h3>
-        <p className="text-xs text-elan-500 max-w-sm mx-auto mb-6">
+        <p className="text-xs text-[#89786C] max-w-sm mx-auto mb-6">
           We could not find any items matching your selected criteria. Try loosening your price boundaries or removing selected sizes.
         </p>
         {onResetFilters && (

@@ -7,62 +7,89 @@ export default {
   theme: {
     extend: {
       colors: {
+        burgundy: {
+          DEFAULT: '#4A0E1C', // Primary Burgundy
+          dark: '#2A0710',    // Dark Burgundy
+          wine: '#651C2D',    // Wine Red
+          deep: '#1E050B',
+          text: '#32141B',    // Elegant Dark Text
+          muted: '#89786C',   // Muted Text
+          subtle: 'rgba(74, 14, 28, 0.08)',
+          border: 'rgba(74, 14, 28, 0.18)',
+        },
+        champagne: {
+          DEFAULT: '#D8BD83', // Champagne
+          hover: '#C7A96C',
+          muted: '#BBA067',
+          dark: '#9F8054',
+          light: '#F4EBD9',
+          border: 'rgba(216, 189, 131, 0.32)',
+          subtle: 'rgba(216, 189, 131, 0.14)',
+        },
+        ivory: {
+          DEFAULT: '#F8F0E2', // Warm Ivory
+          warm: '#F8F0E2',
+          cream: '#F2E6D2',   // Soft Cream
+          soft: '#FAF5ED',
+        },
         stylenest: {
-          950: '#0A0A0A', // Deep black
-          900: '#171717', // Charcoal
-          850: '#1F1F1F',
-          800: '#262626',
-          700: '#404040',
-          600: '#525252',
-          500: '#777777', // Soft grey
-          400: '#A3A3A3',
-          300: '#D4D4D4',
-          200: '#E5E5E5',
-          100: '#EFECE6',
-          50: '#F8F6F2', // Warm ivory
+          950: '#2A0710', // Dark Burgundy
+          900: '#32141B', // Elegant Dark Text
+          850: '#4A0E1C', // Primary Burgundy
+          800: '#651C2D', // Wine Red
+          700: '#5C3843',
+          600: '#755560',
+          500: '#89786C', // Muted Text
+          400: '#B0A296',
+          300: '#D5CBC0',
+          200: '#EAE1D5',
+          100: '#F2E6D2', // Soft Cream
+          50: '#F8F0E2',  // Warm Ivory
           gold: {
-            DEFAULT: '#B99A6B', // Champagne gold
-            hover: '#A5855B',
-            muted: '#9F8054', // Muted gold
-            dark: '#87693E',
-            light: '#F8F6F2',
-            subtle: 'rgba(185, 154, 107, 0.12)',
-            border: 'rgba(185, 154, 107, 0.22)',
+            DEFAULT: '#D8BD83', // Champagne
+            hover: '#C7A96C',
+            muted: '#BBA067',
+            dark: '#9F8054',
+            light: '#F4EBD9',
+            subtle: 'rgba(216, 189, 131, 0.14)',
+            border: 'rgba(216, 189, 131, 0.32)',
           },
-          ivory: '#F8F6F2',
-          charcoal: '#171717',
+          ivory: '#F8F0E2',
+          charcoal: '#32141B',
         },
         elan: {
-          950: '#0A0A0A',
-          900: '#171717',
-          850: '#1F1F1F',
-          800: '#262626',
-          700: '#404040',
-          600: '#525252',
-          500: '#777777',
-          400: '#A3A3A3',
-          300: '#D4D4D4',
-          200: '#E5E5E5',
-          100: '#EFECE6',
-          50: '#F8F6F2',
+          950: '#2A0710',
+          900: '#32141B',
+          850: '#4A0E1C',
+          800: '#651C2D',
+          700: '#5C3843',
+          600: '#755560',
+          500: '#89786C',
+          400: '#B0A296',
+          300: '#D5CBC0',
+          200: '#EAE1D5',
+          100: '#F2E6D2',
+          50: '#F8F0E2',
           gold: {
-            DEFAULT: '#B99A6B',
-            hover: '#A5855B',
-            muted: '#9F8054',
-            dark: '#87693E',
-            light: '#F8F6F2',
-            subtle: 'rgba(185, 154, 107, 0.12)',
-            border: 'rgba(185, 154, 107, 0.22)',
+            DEFAULT: '#D8BD83',
+            hover: '#C7A96C',
+            muted: '#BBA067',
+            dark: '#9F8054',
+            light: '#F4EBD9',
+            subtle: 'rgba(216, 189, 131, 0.14)',
+            border: 'rgba(216, 189, 131, 0.32)',
           },
         }
       },
       borderColor: {
-        'luxury-gold': 'rgba(185, 154, 107, 0.22)',
+        'luxury-gold': 'rgba(216, 189, 131, 0.32)',
+        'luxury-burgundy': 'rgba(74, 14, 28, 0.20)',
       },
       fontFamily: {
-        serif: ['"Cormorant Garamond"', 'Playfair Display', 'Georgia', 'serif'],
+        serif: ['"Cormorant Garamond"', '"Bodoni Moda"', '"Playfair Display"', 'Georgia', 'serif'],
         sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        display: ['"Bodoni Moda"', '"Playfair Display"', 'Georgia', 'serif'],
+        editorial: ['"Italiana"', '"Bodoni Moda"', '"Cormorant Garamond"', 'serif'],
       },
       letterSpacing: {
         'widest-luxury': '0.22em',
