@@ -494,6 +494,7 @@ export const Admin: React.FC = () => {
   };
 
   return (
+    <div className="bg-[#F8F0E2] min-h-screen">
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 lg:py-16 pb-28 font-sans">
       {/* Top Portal Masthead */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-black/10 mb-8 gap-4">
@@ -552,7 +553,7 @@ export const Admin: React.FC = () => {
 
       {/* 4 Metric Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-10">
-        <div className="p-6 bg-white border border-black/10 shadow-sm space-y-1">
+        <div className="p-6 bg-[#FDFBF7] border border-[#D8BD83]/30 shadow-luxury space-y-1">
           <div className="flex justify-between items-center text-neutral-400">
             <span className="text-[10px] uppercase font-mono font-bold tracking-wider">Gross Revenue</span>
             <DollarSign className="w-4 h-4 text-emerald-600" />
@@ -563,7 +564,7 @@ export const Admin: React.FC = () => {
           <p className="text-[11px] text-emerald-700 font-medium">All logged transactions</p>
         </div>
 
-        <div className="p-6 bg-white border border-black/10 shadow-sm space-y-1">
+        <div className="p-6 bg-[#FDFBF7] border border-[#D8BD83]/30 shadow-luxury space-y-1">
           <div className="flex justify-between items-center text-neutral-400">
             <span className="text-[10px] uppercase font-mono font-bold tracking-wider">Total Orders</span>
             <ShoppingCart className="w-4 h-4 text-[#B99A6B]" />
@@ -574,7 +575,7 @@ export const Admin: React.FC = () => {
           <p className="text-[11px] text-neutral-500 font-medium">Avg Value: ₹{avgOrderValue.toLocaleString('en-IN')}</p>
         </div>
 
-        <div className="p-6 bg-white border border-black/10 shadow-sm space-y-1">
+        <div className="p-6 bg-[#FDFBF7] border border-[#D8BD83]/30 shadow-luxury space-y-1">
           <div className="flex justify-between items-center text-neutral-400">
             <span className="text-[10px] uppercase font-mono font-bold tracking-wider">Total Customers</span>
             <Users className="w-4 h-4 text-blue-600" />
@@ -585,7 +586,7 @@ export const Admin: React.FC = () => {
           <p className="text-[11px] text-neutral-500 font-medium">Registered & buyers</p>
         </div>
 
-        <div className="p-6 bg-white border border-black/10 shadow-sm space-y-1">
+        <div className="p-6 bg-[#FDFBF7] border border-[#D8BD83]/30 shadow-luxury space-y-1">
           <div className="flex justify-between items-center text-neutral-400">
             <span className="text-[10px] uppercase font-mono font-bold tracking-wider">Catalog Inventory</span>
             <Package className="w-4 h-4 text-purple-600" />
@@ -779,7 +780,7 @@ export const Admin: React.FC = () => {
       {/* TAB 2: ORDERS & FULFILLMENT                             */}
       {/* ======================================================== */}
       {activeAdminTab === 'orders' && (
-        <div className="bg-white border border-black/10 shadow-sm p-6 mb-12 space-y-6">
+        <div className="bg-[#FDFBF7] border border-[#D8BD83]/30 shadow-luxury p-6 mb-12 space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-black/10 gap-4">
             <div>
               <h2 className="font-sans font-black text-2xl uppercase tracking-tight text-[#0A0A0A]">
@@ -794,7 +795,7 @@ export const Admin: React.FC = () => {
               <button
                 onClick={fetchLiveOrders}
                 disabled={isLoadingOrders}
-                className="px-3 py-1.5 bg-[#F8F6F2] hover:bg-white border border-black/20 text-xs font-semibold flex items-center gap-1.5 text-[#0A0A0A]"
+                className="px-3 py-1.5 bg-[#F2E6D2] hover:bg-white border border-black/20 text-xs font-semibold flex items-center gap-1.5 text-[#0A0A0A]"
               >
                 <RefreshCw className={`w-3.5 h-3.5 text-[#B99A6B] ${isLoadingOrders ? 'animate-spin' : ''}`} />
                 <span>{isLoadingOrders ? 'Syncing...' : 'Sync Orders'}</span>
@@ -825,7 +826,7 @@ export const Admin: React.FC = () => {
                   placeholder="Search order #, client, phone..."
                   value={orderSearchQuery}
                   onChange={(e) => setOrderSearchQuery(e.target.value)}
-                  className="pl-8 pr-3 py-1.5 border border-black/20 bg-[#F8F6F2] text-xs outline-none focus:border-black w-60"
+                  className="pl-8 pr-3 py-1.5 border border-black/20 bg-[#F2E6D2] text-xs outline-none focus:border-black w-60"
                 />
               </div>
             </div>
@@ -939,7 +940,7 @@ export const Admin: React.FC = () => {
       {/* TAB 3: PRODUCT CATALOG MANAGEMENT                        */}
       {/* ======================================================== */}
       {activeAdminTab === 'catalog' && (
-        <div className="bg-white border border-black/10 shadow-sm p-6 mb-12 space-y-6">
+        <div className="bg-[#FDFBF7] border border-[#D8BD83]/30 shadow-luxury p-6 mb-12 space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-black/10 gap-4">
             <div>
               <h2 className="font-sans font-black text-2xl uppercase tracking-tight text-[#0A0A0A]">
@@ -970,7 +971,7 @@ export const Admin: React.FC = () => {
                   placeholder="Search creation, SKU, category..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8 pr-3 py-1.5 border border-black/20 bg-[#F8F6F2] text-xs outline-none focus:border-black w-60"
+                  className="pl-8 pr-3 py-1.5 border border-black/20 bg-[#F2E6D2] text-xs outline-none focus:border-black w-60"
                 />
               </div>
 
@@ -1079,7 +1080,7 @@ export const Admin: React.FC = () => {
       {/* TAB 4: CUSTOMER MANAGEMENT                               */}
       {/* ======================================================== */}
       {activeAdminTab === 'customers' && (
-        <div className="bg-white border border-black/10 shadow-sm p-6 mb-12 space-y-6">
+        <div className="bg-[#FDFBF7] border border-[#D8BD83]/30 shadow-luxury p-6 mb-12 space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-black/10 gap-4">
             <div>
               <h2 className="font-sans font-black text-2xl uppercase tracking-tight text-[#0A0A0A]">
@@ -1094,7 +1095,7 @@ export const Admin: React.FC = () => {
               <button
                 onClick={fetchLiveUsers}
                 disabled={isLoadingUsers}
-                className="px-3 py-1.5 bg-[#F8F6F2] hover:bg-white border border-black/20 text-xs font-semibold flex items-center gap-1.5 text-[#0A0A0A]"
+                className="px-3 py-1.5 bg-[#F2E6D2] hover:bg-white border border-black/20 text-xs font-semibold flex items-center gap-1.5 text-[#0A0A0A]"
               >
                 <RefreshCw className={`w-3.5 h-3.5 text-[#B99A6B] ${isLoadingUsers ? 'animate-spin' : ''}`} />
                 <span>{isLoadingUsers ? 'Syncing...' : 'Sync Customers'}</span>
@@ -1107,7 +1108,7 @@ export const Admin: React.FC = () => {
                   placeholder="Search client name, email, phone..."
                   value={customerSearchQuery}
                   onChange={(e) => setCustomerSearchQuery(e.target.value)}
-                  className="pl-8 pr-3 py-1.5 border border-black/20 bg-[#F8F6F2] text-xs outline-none focus:border-black w-60"
+                  className="pl-8 pr-3 py-1.5 border border-black/20 bg-[#F2E6D2] text-xs outline-none focus:border-black w-60"
                 />
               </div>
             </div>
@@ -1180,7 +1181,7 @@ export const Admin: React.FC = () => {
       {/* TAB 5: RETURNS & REFUNDS                                 */}
       {/* ======================================================== */}
       {activeAdminTab === 'returns' && (
-        <div className="bg-white border border-black/10 shadow-sm p-6 mb-12 space-y-6">
+        <div className="bg-[#FDFBF7] border border-[#D8BD83]/30 shadow-luxury p-6 mb-12 space-y-6">
           <div className="pb-4 border-b border-black/10">
             <h2 className="font-sans font-black text-2xl uppercase tracking-tight text-[#0A0A0A]">
               14-Day Doorstep Returns & Refunds Portal
@@ -1289,7 +1290,7 @@ export const Admin: React.FC = () => {
                     value={formName}
                     onChange={(e) => setFormName(e.target.value)}
                     placeholder="e.g. Double-Faced Cashmere Overcoat"
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
                   />
                 </div>
 
@@ -1303,7 +1304,7 @@ export const Admin: React.FC = () => {
                     value={formBrand}
                     onChange={(e) => setFormBrand(e.target.value)}
                     placeholder="STYLENEST × DRIPPY"
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
                   />
                 </div>
               </div>
@@ -1318,7 +1319,7 @@ export const Admin: React.FC = () => {
                     value={formSku}
                     onChange={(e) => setFormSku(e.target.value)}
                     placeholder="SN-PARIS-001"
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-mono"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-mono"
                   />
                 </div>
 
@@ -1329,7 +1330,7 @@ export const Admin: React.FC = () => {
                   <select
                     value={formCategory}
                     onChange={(e) => setFormCategory(e.target.value as any)}
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-bold uppercase"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-bold uppercase"
                   >
                     <option value="men">Menswear</option>
                     <option value="shoes">Footwear</option>
@@ -1348,7 +1349,7 @@ export const Admin: React.FC = () => {
                     value={formSubcategory}
                     onChange={(e) => setFormSubcategory(e.target.value)}
                     placeholder="Jackets, Boots, Extrait..."
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
                   />
                 </div>
               </div>
@@ -1364,7 +1365,7 @@ export const Admin: React.FC = () => {
                     min={100}
                     value={formPrice}
                     onChange={(e) => setFormPrice(Number(e.target.value))}
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-bold"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-bold"
                   />
                 </div>
 
@@ -1377,7 +1378,7 @@ export const Admin: React.FC = () => {
                     value={formOriginalPrice || ''}
                     onChange={(e) => setFormOriginalPrice(e.target.value ? Number(e.target.value) : undefined)}
                     placeholder="Strike-through"
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
                   />
                 </div>
 
@@ -1391,7 +1392,7 @@ export const Admin: React.FC = () => {
                     min={0}
                     value={formStock}
                     onChange={(e) => setFormStock(Number(e.target.value))}
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-mono font-bold"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-mono font-bold"
                   />
                 </div>
 
@@ -1399,7 +1400,7 @@ export const Admin: React.FC = () => {
                   <label className="block font-bold mb-1 uppercase tracking-wider text-[10px] text-neutral-500">
                     Availability
                   </label>
-                  <label className="flex items-center gap-2 p-2.5 bg-[#F8F6F2] border border-black/20 cursor-pointer">
+                  <label className="flex items-center gap-2 p-2.5 bg-[#F2E6D2] border border-black/20 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={formInStock}
@@ -1422,7 +1423,7 @@ export const Admin: React.FC = () => {
                     value={formSizesInput}
                     onChange={(e) => setFormSizesInput(e.target.value)}
                     placeholder="S, M, L, XL or UK 7, UK 8, UK 9"
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-mono"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black font-mono"
                   />
                 </div>
 
@@ -1435,7 +1436,7 @@ export const Admin: React.FC = () => {
                     value={formColorsInput}
                     onChange={(e) => setFormColorsInput(e.target.value)}
                     placeholder="Black, Camel, Charcoal, Ivory"
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
                   />
                 </div>
               </div>
@@ -1468,7 +1469,7 @@ export const Admin: React.FC = () => {
                         placeholder="Paste image URL (HTTPS, Unsplash, WebP, PNG)..."
                         value={newImageUrl}
                         onChange={(e) => setNewImageUrl(e.target.value)}
-                        className="flex-1 bg-[#F8F6F2] border border-black/20 px-3 py-2 text-xs outline-none focus:border-black"
+                        className="flex-1 bg-[#F2E6D2] border border-black/20 px-3 py-2 text-xs outline-none focus:border-black"
                       />
                       <button
                         type="button"
@@ -1546,7 +1547,7 @@ export const Admin: React.FC = () => {
                   value={formDescription}
                   onChange={(e) => setFormDescription(e.target.value)}
                   placeholder="Architectural tailoring and fine materials crafted in Paris..."
-                  className="w-full bg-[#F8F6F2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
+                  className="w-full bg-[#F2E6D2] border border-black/20 p-2.5 text-xs text-[#0A0A0A] outline-none focus:border-black"
                 />
               </div>
 
@@ -1627,7 +1628,7 @@ export const Admin: React.FC = () => {
             </div>
 
             {/* Destination Address Card */}
-            <div className="p-4 bg-[#F8F6F2] border border-black/10 space-y-2">
+            <div className="p-4 bg-[#F2E6D2] border border-black/10 space-y-2">
               <div className="flex items-center justify-between border-b border-black/10 pb-2">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#B99A6B] font-bold flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5" />
@@ -1744,7 +1745,7 @@ export const Admin: React.FC = () => {
                     value={courierPartnerInput}
                     onChange={(e) => setCourierPartnerInput(e.target.value)}
                     placeholder="BlueDart Apex Air / Delhivery Express"
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2 text-xs text-[#0A0A0A] outline-none"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2 text-xs text-[#0A0A0A] outline-none"
                   />
                 </div>
 
@@ -1757,7 +1758,7 @@ export const Admin: React.FC = () => {
                     value={trackingNumberInput}
                     onChange={(e) => setTrackingNumberInput(e.target.value)}
                     placeholder="BLUEDART-IND-XXXXXXX"
-                    className="w-full bg-[#F8F6F2] border border-black/20 p-2 text-xs font-mono text-[#0A0A0A] outline-none"
+                    className="w-full bg-[#F2E6D2] border border-black/20 p-2 text-xs font-mono text-[#0A0A0A] outline-none"
                   />
                 </div>
               </div>
@@ -1820,6 +1821,7 @@ export const Admin: React.FC = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

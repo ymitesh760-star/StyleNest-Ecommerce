@@ -333,9 +333,9 @@ export const ProductDetails: React.FC = () => {
   }
 
   return (
-    <div className="pb-24">
+    <div className="bg-[#F8F0E2] min-h-screen pb-24">
       {/* Breadcrumbs */}
-      <div className="bg-white border-b border-elan-100 py-3.5 px-4 sm:px-8">
+      <div className="bg-[#F8F0E2] border-b border-[#D8BD83]/30 py-3.5 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-[11px] uppercase tracking-wider-luxury text-elan-400">
           <div className="flex items-center gap-2 overflow-hidden">
             <Link to="/" className="hover:text-elan-950 transition-colors shrink-0">Home</Link>
@@ -702,25 +702,25 @@ export const ProductDetails: React.FC = () => {
 
             {/* Amazon-style Delivery & Refund Highlights */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-4 pb-2 border-y border-[rgba(185,154,107,0.22)] my-4 text-center">
-              <div className="p-2.5 bg-[#F8F6F2] rounded-xs flex flex-col items-center justify-center border border-[rgba(185,154,107,0.15)]">
-                <Truck className="w-4 h-4 text-[#B99A6B] mb-1" />
-                <span className="text-[10px] font-bold text-[#0A0A0A] uppercase tracking-wider">Free Delivery</span>
-                <span className="text-[9px] text-[#777777]">Within 2-3 Days</span>
+              <div className="p-2.5 bg-[#F2E6D2] rounded-xs flex flex-col items-center justify-center border border-[#D8BD83]/30">
+                <Truck className="w-4 h-4 text-[#D8BD83] mb-1" />
+                <span className="text-[10px] font-bold text-[#32141B] uppercase tracking-wider">Free Delivery</span>
+                <span className="text-[9px] text-[#89786C]">Within 2-3 Days</span>
               </div>
-              <div className="p-2.5 bg-[#F8F6F2] rounded-xs flex flex-col items-center justify-center border border-[rgba(185,154,107,0.15)]">
-                <RefreshCw className="w-4 h-4 text-[#B99A6B] mb-1" />
-                <span className="text-[10px] font-bold text-[#0A0A0A] uppercase tracking-wider">14-Day Returns</span>
+              <div className="p-2.5 bg-[#F2E6D2] rounded-xs flex flex-col items-center justify-center border border-[#D8BD83]/30">
+                <RefreshCw className="w-4 h-4 text-[#D8BD83] mb-1" />
+                <span className="text-[10px] font-bold text-[#32141B] uppercase tracking-wider">14-Day Returns</span>
                 <span className="text-[9px] text-emerald-700 font-semibold">100% Refundable</span>
               </div>
-              <div className="p-2.5 bg-[#F8F6F2] rounded-xs flex flex-col items-center justify-center border border-[rgba(185,154,107,0.15)]">
-                <Banknote className="w-4 h-4 text-[#B99A6B] mb-1" />
-                <span className="text-[10px] font-bold text-[#0A0A0A] uppercase tracking-wider">Pay on Delivery</span>
-                <span className="text-[9px] text-[#777777]">Cash / UPI Eligible</span>
+              <div className="p-2.5 bg-[#F2E6D2] rounded-xs flex flex-col items-center justify-center border border-[#D8BD83]/30">
+                <Banknote className="w-4 h-4 text-[#D8BD83] mb-1" />
+                <span className="text-[10px] font-bold text-[#32141B] uppercase tracking-wider">Pay on Delivery</span>
+                <span className="text-[9px] text-[#89786C]">Cash / UPI Eligible</span>
               </div>
-              <div className="p-2.5 bg-[#F8F6F2] rounded-xs flex flex-col items-center justify-center border border-[rgba(185,154,107,0.15)]">
-                <ShieldCheck className="w-4 h-4 text-[#B99A6B] mb-1" />
-                <span className="text-[10px] font-bold text-[#0A0A0A] uppercase tracking-wider">Maison Assured</span>
-                <span className="text-[9px] text-[#777777]">100% Authentic</span>
+              <div className="p-2.5 bg-[#F2E6D2] rounded-xs flex flex-col items-center justify-center border border-[#D8BD83]/30">
+                <ShieldCheck className="w-4 h-4 text-[#D8BD83] mb-1" />
+                <span className="text-[10px] font-bold text-[#32141B] uppercase tracking-wider">Maison Assured</span>
+                <span className="text-[9px] text-[#89786C]">100% Authentic</span>
               </div>
             </div>
 

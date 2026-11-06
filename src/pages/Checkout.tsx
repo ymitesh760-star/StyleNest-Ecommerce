@@ -168,6 +168,7 @@ export const Checkout: React.FC = () => {
   }
 
   return (
+    <div className="bg-[#F8F0E2] min-h-screen">
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 lg:py-16">
       {/* Checkout Progress Stepper */}
       <div className="max-w-2xl mx-auto mb-12">
@@ -210,7 +211,7 @@ export const Checkout: React.FC = () => {
         <div className="lg:col-span-7 space-y-8">
           {/* STEP 1: Address & Contact */}
           {step === 1 && (
-            <div className="bg-white p-6 sm:p-8 rounded-sm border border-elan-200 shadow-sm space-y-6 animate-fade-in">
+            <div className="bg-[#FDFBF7] p-6 sm:p-8 rounded-sm border border-[#D8BD83]/30 shadow-luxury space-y-6 animate-fade-in">
               <div>
                 <h2 className="font-serif-luxury text-2xl font-bold text-elan-950">
                   Recipient & Shipping Destination
@@ -376,7 +377,7 @@ export const Checkout: React.FC = () => {
 
           {/* STEP 2: Delivery & Payment Method */}
           {step === 2 && (
-            <div className="bg-white p-6 sm:p-8 rounded-sm border border-elan-200 shadow-sm space-y-8 animate-fade-in">
+            <div className="bg-[#FDFBF7] p-6 sm:p-8 rounded-sm border border-[#D8BD83]/30 shadow-luxury space-y-8 animate-fade-in">
               {/* Delivery Speed */}
               <div>
                 <h2 className="font-serif-luxury text-2xl font-bold text-elan-950 mb-1">
@@ -603,7 +604,7 @@ export const Checkout: React.FC = () => {
 
           {/* STEP 3: Review & Authorize */}
           {step === 3 && (
-            <div className="bg-white p-6 sm:p-8 rounded-sm border border-elan-200 shadow-sm space-y-6 animate-fade-in">
+            <div className="bg-[#FDFBF7] p-6 sm:p-8 rounded-sm border border-[#D8BD83]/30 shadow-luxury space-y-6 animate-fade-in">
               <div>
                 <h2 className="font-serif-luxury text-2xl font-bold text-elan-950">
                   Review & Authorize Acquisition
@@ -703,7 +704,7 @@ export const Checkout: React.FC = () => {
 
         {/* Right Column: Order Summary (5 cols) */}
         <div className="lg:col-span-5">
-          <div className="bg-white p-6 sm:p-8 rounded-sm border border-elan-200 shadow-luxury space-y-6 sticky top-28">
+          <div className="bg-[#FDFBF7] p-6 sm:p-8 rounded-sm border border-[#D8BD83]/30 shadow-luxury space-y-6 sticky top-28">
             <h3 className="font-serif-luxury text-2xl font-bold text-elan-950 pb-4 border-b border-elan-200">
               Acquisition Summary
             </h3>
@@ -743,7 +744,7 @@ export const Checkout: React.FC = () => {
             </div>
 
             {/* Amazon-Style Trust & Return Guarantees */}
-            <div className="p-4 bg-[#F8F6F2] rounded-xs border border-[rgba(185,154,107,0.25)] space-y-2.5 text-[11px] text-[#777777]">
+            <div className="p-4 bg-[#F2E6D2] rounded-xs border border-[rgba(185,154,107,0.25)] space-y-2.5 text-[11px] text-[#777777]">
               <div className="flex items-center gap-1.5 font-bold text-[#0A0A0A] uppercase tracking-wider text-xs pb-1 border-b border-[rgba(185,154,107,0.18)]">
                 <ShieldCheck className="w-4 h-4 text-[#B99A6B]" />
                 <span>StyleNest Client Guarantees</span>
@@ -766,6 +767,7 @@ export const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
